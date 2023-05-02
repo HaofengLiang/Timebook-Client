@@ -1,8 +1,6 @@
 # Timebook-Client
 This Client application is designed with server implmented in https://github.com/Lin1404/Timebook.
 
-asdasdasdasd
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
