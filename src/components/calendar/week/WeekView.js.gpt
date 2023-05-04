@@ -1,0 +1,143 @@
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
+import { actions } from './store';
+
+function WeekView() {
+    const events = useSelector(state => state.events);
+    const selectedDate = useSelector(state => state.selectedDate);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        // Fetch the events for the selected week
+        const startOfWeek = moment(selectedDate).startOf('week');
+        const endOfWeek = moment(selectedDate).endOf('week');
+        const events = fetchEvents(startOfWeek, endOfWeek);
+        dispatch({ type: actions.SET_EVENTS, payload: events });
+    }, [selectedDate]);
+
+    function handleDateChange(date) {
+        // Update the selected date and fetch the events for the new week
+        dispatch({ type: actions.SET_SELECTED_DATE, payload: date });
+    }
+
+    return (
+        <div>
+            <WeekHeader date={selectedDate} onDateChange={handleDateChange} />
+            <WeekBody events={events} />
+        </div>
+    );
+}
+
+function WeekHeader({ date, onDateChange }) {
+    function handlePrevWeek() {
+        const prevWeek = moment(date).subtract(1, 'week');
+        onDateChange(prevWeek.toDate());
+    }
+
+    function handleNextWeek() {
+        const nextWeek = moment(date).add(1, 'week');
+        onDateChange(nextWeek.toDate());
+    }
+
+    return (
+        <div>
+            <button onClick={handlePrevWeek}>Prev Week</button>
+            <span>{moment(date).format('MMMM Do YYYY')}</span>
+            <button onClick={handleNextWeek}>Next Week</button>
+        </div>
+    );
+}
+
+function WeekBody({ events }) {
+    // Render the events for each day of the week
+    return (
+        <div>
+            <DayHeader />
+            {[0, 1, 2, 3, 4, 5, 6].map(dayOffset => {
+                const day = moment().startOf('week').add(dayOffset, 'day');
+                const dayEvents = events.filter(event => {
+                    return moment(event.start).isSame(day, 'day');
+                });
+                return <Day key={dayOffset} date={day} events={dayEvents} />;
+            })}
+        </div>
+    );
+}
+
+function DayHeader() {
+    // Render the day names at the top of the week view
+    return (
+        <div>
+            <div>
+                <span>Sunday</span>
+                <span>Monday</span>
+                <span>Tuesday</span>
+                <span>Wednesday</span>
+                <span>Thursday</span>
+                <span>Friday</span>
+                <span>Saturday</span>
+            </div>
+            <div>
+                <span>{moment().startOf('week').format('D')}</span>
+                <span>{moment().startOf('week').add(1, 'day').format('D')}</span>
+                <span>{moment().startOf('week').add(2, 'day').format('D')}</span>
+                <span>{moment().startOf('week').add(3, 'day').format('D')}</span>
+                <span>{moment().startOf('week').add(4, 'day').format('D')}</span>
+                <span>{moment().startOf('week').add(5, 'day').format('D')}</span>
+                <span>{moment().startOf('week').add(6, 'day').format('D')}</span>
+            </div>
+        </div>);
+}
+
+function Day({ date, events }) {
+    return (
+        <div>
+            <div>{date.format('dddd')}</div>
+            <div>
+                {events.map(event => (
+                    <Event key={event.id} event={event} />
+                ))}
+            </div>
+        </div>
+    );
+}
+
+function Event({ event }) {
+    const startTime = moment(event.start).format('h:mm A');
+    const endTime = moment(event.end).format('h:mm A');
+    return (
+        <div>
+            <div>{event.title}</div>
+            <div>
+                {startTime} - {endTime}
+            </div>
+        </div>
+    );
+}
+
+function fetchEvents(startOfWeek, endOfWeek) {
+    // TODO: Fetch the events for the given week from your API or database
+    return [
+        {
+            id: 1,
+            title: 'Meeting with John',
+            start: moment().startOf('week').add(1, 'day').add(10, 'hours').toDate(),
+            end: moment().startOf('week').add(1, 'day').add(12, 'hours').toDate(),
+        },
+        {
+            id: 2,
+            title: 'Lunch with Sarah',
+            start: moment().startOf('week').add(2, 'day').add(12, 'hours').toDate(),
+            end: moment().startOf('week').add(2, 'day').add(13, 'hours').toDate(),
+        },
+        {
+            id: 3,
+            title: 'Team meeting',
+            start: moment().startOf('week').add(3, 'day').add(14, 'hours').toDate(),
+            end: moment().startOf('week').add(3, 'day').add(16, 'hours').toDate(),
+        },
+    ];
+}
+
+export default WeekView;
