@@ -2,17 +2,17 @@ import "./Weekday.css"
 import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import moment from 'moment';
 
-export default function Weekday({ events, day }) {
+export default function Weekday({ events, day, onDateTimeSelect }) {
     const hrs = 24;
     const minsPerSection = 30;
     const numOfSections = hrs * (60 / minsPerSection);
     const listItems = [...Array(numOfSections)].map((_, i) => {
-        const time = moment().startOf('day').add(i * minsPerSection, 'minutes');
+        const dateTime = moment(day).startOf('day').add(i * minsPerSection, 'minutes');
         return (
             <ListItem key={i} className='Item'>
                 {day
-                    ? <ListItemButton></ListItemButton>
-                    : <ListItemText primary={time.format('h:mm A')} />}
+                    ? <ListItemButton onClick={() => onDateTimeSelect(dateTime)}></ListItemButton>
+                    : <ListItemText primary={dateTime.format('h:mm A')} />}
             </ListItem>);
     });
 
