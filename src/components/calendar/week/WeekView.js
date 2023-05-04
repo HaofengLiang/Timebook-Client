@@ -20,6 +20,7 @@ export default function WeekView({ selectedDate, events }) {
 
     return (
         <div>
+
             <h1>Weekday</h1>
             <TableContainer sx={{ height: '85vh' }}>
                 <Table stickyHeader aria-label="sticky table">
