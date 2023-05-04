@@ -1,7 +1,7 @@
-import { Button, FormControl, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import moment from "moment";
 
 
@@ -31,39 +31,44 @@ export default function EventForm() {
     }
 
     return (
-        <LocalizationProvider dateAdapter={AdapterMoment}>
-            <form onSubmit={onSubmitHandler}>
-                <TextField
-                    label="Title"
-                    required
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-                <DateTimePicker
-                    label="Start"
-                    required
-                    value={start}
-                    onChange={(dateTime) => { setStart(dateTime) }}
-                />
-                <DateTimePicker
-                    label="End"
-                    required
-                    value={end}
-                    onChange={(dateTime) => setEnd(dateTime)}
-                />
+        <Fragment>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+                Text in a modal
+            </Typography>
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+                <form onSubmit={onSubmitHandler}>
+                    <TextField
+                        label="Title"
+                        required
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                    <DateTimePicker
+                        label="Start"
+                        required
+                        value={start}
+                        onChange={(dateTime) => { setStart(dateTime) }}
+                    />
+                    <DateTimePicker
+                        label="End"
+                        required
+                        value={end}
+                        onChange={(dateTime) => setEnd(dateTime)}
+                    />
 
-                <TextField
-                    label="Description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
-                <TextField
-                    label="Priority"
-                    value={priority}
-                    onChange={(e) => setPriority(e.target.value)}
-                />
-                <Button variant="contained" color="primary" type="submit">Save</Button>
-            </form>
-        </LocalizationProvider>
+                    <TextField
+                        label="Description"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
+                    <TextField
+                        label="Priority"
+                        value={priority}
+                        onChange={(e) => setPriority(e.target.value)}
+                    />
+                    <Button variant="contained" color="primary" type="submit">Save</Button>
+                </form>
+            </LocalizationProvider>
+        </Fragment >
     );
 }
