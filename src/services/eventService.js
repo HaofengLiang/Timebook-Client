@@ -44,3 +44,9 @@ export function fetchEvents() {
         }
     ]
 }
+
+export function saveEvent(event) {
+    // TODO: Call actual service to save event.
+    console.log("Saving event...")
+    console.log(event);
+}

@@ -13,14 +13,13 @@ function DayHeader({ day }) {
         </div>);
 }
 
-export default function WeekView({ selectedDate, events }) {
+export default function WeekView({ selectedDate, events, onDateTimeSelect }) {
     const days = [0, 1, 2, 3, 4, 5, 6].map((dayOffset) =>
         moment(selectedDate).startOf('week').add(dayOffset, 'day')
     )
 
     return (
         <div>
-
             <h1>Weekday</h1>
             <TableContainer sx={{ height: '85vh' }}>
                 <Table stickyHeader aria-label="sticky table">
@@ -46,7 +45,7 @@ export default function WeekView({ selectedDate, events }) {
                             {days.map((day) =>
                                 <TableCell key={day.format('mm-dd-yyyy') + '-cell'}
                                     className="tableCell">
-                                    <Weekday day={day} />
+                                    <Weekday onDateTimeSelect={onDateTimeSelect} day={day} />
                                 </TableCell>
                             )}
                         </TableRow>
