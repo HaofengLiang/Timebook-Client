@@ -14,7 +14,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header"></header>
-      {userId ? <Calendar /> : <Login onLogin={onLogin} />}
+      <div className="App-content">
+        {userId ? <Calendar /> : <Login onLogin={onLogin} />}
+      </div>
     </div>
   );
 }
