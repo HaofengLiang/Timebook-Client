@@ -1,8 +1,8 @@
 import "./Weekday.css";
 import React from "react";
 import moment from "moment";
-import Weekday from "./Weekday";
-import { TableContainer, Table, TableBody, TableHead, TableRow, TableCell } from "@mui/material";
+import WeekBody from "./WeekBody";
+import { TableContainer, Table, TableHead, TableRow, TableCell } from "@mui/material";
 
 function DayHeader({ day }) {
     // Render the day names at the top of the week view
@@ -37,19 +37,7 @@ export default function WeekView({ selectedDate, events, onDateTimeSelect }) {
                             ))}
                         </TableRow>
                     </TableHead>
-                    <TableBody>
-                        <TableRow role="checkbox" tabIndex={-1}>
-                            <TableCell key={'time-masure'} className="tableCell">
-                                <Weekday />
-                            </TableCell>
-                            {days.map((day) =>
-                                <TableCell key={day.format('mm-dd-yyyy') + '-cell'}
-                                    className="tableCell">
-                                    <Weekday onDateTimeSelect={onDateTimeSelect} day={day} />
-                                </TableCell>
-                            )}
-                        </TableRow>
-                    </TableBody>
+                    <WeekBody events={events} days={days} onDateTimeSelect={onDateTimeSelect} />
                 </Table>
             </TableContainer>
         </div>

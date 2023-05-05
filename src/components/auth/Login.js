@@ -4,7 +4,7 @@ import { Button, FormControl, InputLabel, Input, FormHelperText } from "@mui/mat
 
 export default function Login({ onLogin }) {
     const emailInputRef = useRef();
-    const [error, setError] = useState(true);
+    const [error, setError] = useState(false);
 
     const loginHandler = () => {
         if (!emailInputRef.current.value.includes('@')) {
