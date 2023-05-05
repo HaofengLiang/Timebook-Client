@@ -5,11 +5,10 @@ import './Weekday.css';
 
 function WeekCell({ events, day, minutesOfDay, onDateTimeSelect }) {
     const dateTime = moment(day).startOf('day').add(minutesOfDay, 'minutes');
-    const event = events?.find((event) => { return moment(event.start).isBetween(dateTime, moment(dateTime).add(30, "minutes")) });
-
-    if (event) {
-        console.log(event);
-    }
+    const event = events?.find((event) => {
+        return moment(event.start).isSame(dateTime) ||
+            moment(event.start).isBetween(dateTime, moment(dateTime).add(30, "minutes"));
+    });
 
     let rowSpan = 1;
     if (event) {
