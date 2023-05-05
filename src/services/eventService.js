@@ -1,3 +1,4 @@
+import moment from "moment";
 
 export function fetchEvents() {
     // TODO: Call actual service to fetch events.
@@ -5,8 +6,8 @@ export function fetchEvents() {
         {
             id: 1,
             title: "Pratice on BFS",
-            start: "05-03-2023 09:00:00",
-            end: "05-03-2023 10:00:00",
+            start: moment().startOf('hour').add(9, "hours"),
+            end: moment().startOf('hour').add(10, "hours"),
             description: "Go to leetcode.com and pratice BFS algorithm.",
             priority: 0,
         },

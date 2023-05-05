@@ -4,7 +4,7 @@ import WeekView from "./week/WeekView";
 import EventForm from "../event/EventForm";
 import store from "./week/store";
 import { Modal, Box } from "@mui/material";
-import { saveEvent } from "../../services/eventService";
+import { fetchEvents, saveEvent } from "../../services/eventService";
 import moment from "moment";
 
 const style = {
@@ -21,6 +21,7 @@ const style = {
 export default function Calendar() {
     const [showForm, setShowForm] = useState(false);
     const [selectedDateTime, setSelectedDateTime] = useState(moment());
+    const [events, setEvents] = useState(fetchEvents());
 
     const today = moment();
 
@@ -41,7 +42,7 @@ export default function Calendar() {
                     <EventForm startDateTime={selectedDateTime} onSubmit={eventAddHandler} />
                 </Box>
             </Modal>
-            <WeekView onDateTimeSelect={dateTimeSelectedHander} selectedDate={today} />
+            <WeekView onDateTimeSelect={dateTimeSelectedHander} selectedDate={today} events={events} />
         </Provider>
     );
 }
