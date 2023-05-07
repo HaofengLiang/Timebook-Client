@@ -8,7 +8,7 @@ export default function WeekBody({ events, days, onDateTimeSelect }) {
         <TableBody>
             <TableRow key={"datetime"} className='Item'>
                 <TableCell key={'datetime-header'} className="tableCell">
-                    <Weekday />
+                    <Weekday isHeader />
                 </TableCell>
                 {days.map((day) =>
                     <TableCell key={day.format("MM-DD-yyyy") + '-datetime-body'} className="tableCell" align="center">
