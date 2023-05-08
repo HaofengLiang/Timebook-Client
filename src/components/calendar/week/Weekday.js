@@ -13,6 +13,8 @@ function Event({ event }) {
 };
 
 export default function WeekDay({ events, day, onDateTimeSelect, isHeader }) {
+    const heightPerRowInVH = 5;
+
     const hrs = 24;
     const minsPerSection = 30;
     const numOfSections = hrs * (60 / minsPerSection);
@@ -35,10 +37,10 @@ export default function WeekDay({ events, day, onDateTimeSelect, isHeader }) {
 
         listItems.push(
             isHeader ?
-                <ListItem key={dateTime.format('hh-mm-A') + "list-item"} className='datetimeHeader'>
+                <ListItem key={dateTime.format('hh-mm-A') + "list-item"} className='datetimeHeader' style={{ height: heightPerRowInVH + "vh" }}>
                     <ListItemText primary={dateTime.format('hh:mm A')} />
                 </ListItem> :
-                <ListItem key={dateTime.format('MM-DD-yyyy-hh-mm-A') + "-list-item"} className='datetimeItem' style={{ height: (rowSpan * 5) + "vh" }}>
+                <ListItem key={dateTime.format('MM-DD-yyyy-hh-mm-A') + "-list-item"} className='datetimeItem' style={{ height: (rowSpan * heightPerRowInVH) + "vh" }}>
                     <ListItemButton onClick={() => onDateTimeSelect(dateTime)} className="datetimeButton">
                         {event && <Event event={event} />}
                     </ListItemButton>
