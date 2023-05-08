@@ -12,7 +12,7 @@ export default function EventForm({ onSubmit, startDateTime }) {
     const [title, setTitle] = useState('');
     const [start, setStart] = useState(startDateTime);
     const [end, setEnd] = useState(moment(startDateTime).add(30, "minutes"));
-    const [description, setDescription] = useState();
+    const [description, setDescription] = useState('');
     const [priority, setPriority] = useState(0);
 
     const onSubmitHandler = (e) => {
