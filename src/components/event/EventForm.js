@@ -6,7 +6,7 @@ import moment from "moment";
 
 
 export default function EventForm({ onSubmit, startDateTime }) {
-    startDateTime = moment(startDateTime).isBefore(moment().startOf('hour').add(30, "minutes"))
+    startDateTime = moment(startDateTime).isBefore(moment(startDateTime).startOf('hour').add(30, "minutes"))
         ? moment(startDateTime).startOf('hour') : moment(startDateTime).startOf('hour').add(30, "minutes")
 
     const [title, setTitle] = useState('');
