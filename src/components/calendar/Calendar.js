@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import { Provider } from "react-redux";
+import React, { Fragment, useState } from "react";
 import WeekView from "./week/WeekView";
 import EventForm from "../event/EventForm";
-import store from "./week/store";
 import { Modal, Box } from "@mui/material";
 import { fetchEvents, saveEvent } from "../../services/eventService";
 import moment from "moment";
@@ -27,6 +25,7 @@ export default function Calendar() {
 
     const eventAddHandler = (event) => {
         saveEvent(event);
+        setEvents([...events, event]);
         setShowForm(false);
     }
 
@@ -36,13 +35,13 @@ export default function Calendar() {
     }
 
     return (
-        <Provider store={store}>
+        <Fragment>
             <Modal open={showForm} onClose={() => setShowForm(false)}>
                 <Box sx={style}>
                     <EventForm startDateTime={selectedDateTime} onSubmit={eventAddHandler} />
                 </Box>
             </Modal>
             <WeekView onDateTimeSelect={dateTimeSelectedHander} selectedDate={today} events={events} />
-        </Provider>
+        </Fragment>
     );
 }
