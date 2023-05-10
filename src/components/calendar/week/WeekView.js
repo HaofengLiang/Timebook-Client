@@ -13,11 +13,17 @@ function DayHeader({ day }) {
         </div>);
 }
 
+function getEventsForDay (day, events){
+    if(!events || events.length === 0){
+        return [];
+    }
+    return events.filter(event => event.startDateTime.isSame(day, "day"))
+}
+
 export default function WeekView({ selectedDate, events, onDateTimeSelect }) {
     const days = [0, 1, 2, 3, 4, 5, 6].map((dayOffset) =>
         moment(selectedDate).startOf('week').add(dayOffset, 'day')
     )
-
     return (
         <div>
             <h1>Weekday</h1>
@@ -44,7 +50,7 @@ export default function WeekView({ selectedDate, events, onDateTimeSelect }) {
                             </TableCell>
                             {days.map((day) =>
                                 <TableCell key={day.format("MM-DD-yyyy") + '-datetime-body'} className="tableCell" align="center">
-                                    <WeekDay day={day} events={events?.filter(event => event.start.isSame(day, "day"))} onDateTimeSelect={onDateTimeSelect} />
+                                    <WeekDay day={day} events={getEventsForDay(day,events)} onDateTimeSelect={onDateTimeSelect} />
                                 </TableCell>)
                             }
                         </TableRow >

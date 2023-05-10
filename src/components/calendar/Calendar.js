@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import WeekView from "./week/WeekView";
 import EventForm from "../event/EventForm";
 import { Modal, Box } from "@mui/material";
@@ -19,10 +19,17 @@ const style = {
 export default function Calendar() {
     const [showForm, setShowForm] = useState(false);
     const [selectedDateTime, setSelectedDateTime] = useState(moment());
-    const [events, setEvents] = useState(fetchEvents());
-
+    const [events, setEvents] = useState([]);
     const today = moment();
 
+    useEffect(() =>{
+        async function fetchData() {
+            const events = await fetchEvents();
+            setEvents(events);
+        }
+        
+        fetchData()
+    },[])
     const eventAddHandler = (event) => {
         saveEvent(event);
         setEvents([...events, event]);

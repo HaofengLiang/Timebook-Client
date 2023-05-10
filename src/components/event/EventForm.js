@@ -5,13 +5,13 @@ import { Fragment, useState } from 'react';
 import moment from "moment";
 
 
-export default function EventForm({ onSubmit, startDateTime }) {
-    startDateTime = moment(startDateTime).isBefore(moment(startDateTime).startOf('hour').add(30, "minutes"))
-        ? moment(startDateTime).startOf('hour') : moment(startDateTime).startOf('hour').add(30, "minutes")
+export default function EventForm({ onSubmit, start }) {
+    start = moment(start).isBefore(moment(start).startOf('hour').add(30, "minutes"))
+        ? moment(start).startOf('hour') : moment(start).startOf('hour').add(30, "minutes")
 
     const [title, setTitle] = useState('');
-    const [start, setStart] = useState(startDateTime);
-    const [end, setEnd] = useState(moment(startDateTime).add(30, "minutes"));
+    const [startDateTime, setStartDateTime] = useState(start);
+    const [endDateTime, setEndDateTime] = useState(moment(startDateTime).add(30, "minutes"));
     const [description, setDescription] = useState('');
     const [priority, setPriority] = useState(0);
 
@@ -20,8 +20,8 @@ export default function EventForm({ onSubmit, startDateTime }) {
 
         const event = {
             title,
-            start,
-            end,
+            startDateTime,
+            endDateTime,
             description,
             priority
         }
@@ -49,16 +49,16 @@ export default function EventForm({ onSubmit, startDateTime }) {
                             <DateTimePicker
                                 label="Start"
                                 required
-                                value={start}
-                                onChange={(dateTime) => { setStart(dateTime) }}
+                                value={startDateTime}
+                                onChange={(dateTime) => { setStartDateTime(dateTime) }}
                             />
                         </Grid>
                         <Grid item xs={6}>
                             <DateTimePicker
                                 label="End"
                                 required
-                                value={end}
-                                onChange={(dateTime) => setEnd(dateTime)}
+                                value={endDateTime}
+                                onChange={(dateTime) => setEndDateTime(dateTime)}
                             />
                         </Grid>
                         <Grid item xs={12}>
