@@ -14,7 +14,6 @@ function Event({ event }) {
 
 export default function WeekDay({ events, day, onDateTimeSelect, isHeader }) {
     const heightPerRowInVH = 5;
-    console.log(events)
     const hrs = 24;
     const minsPerSection = 30;
     const numOfSections = hrs * (60 / minsPerSection);
