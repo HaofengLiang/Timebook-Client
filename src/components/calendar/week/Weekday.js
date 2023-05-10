@@ -6,7 +6,7 @@ function Event({ event }) {
     return (
         <div className="event">
             <div className="eventTitle">{event.title}</div>
-            <div className="eventTime">{event.start.format('hh:mm A')} - {event.end.format('hh:mm A')}</div>
+            <div className="eventTime">{event.startDateTime.format('hh:mm A')} - {event.endDateTime.format('hh:mm A')}</div>
             <div className="eventDescription">{event.description}</div>
         </div>
     );
@@ -14,25 +14,23 @@ function Event({ event }) {
 
 export default function WeekDay({ events, day, onDateTimeSelect, isHeader }) {
     const heightPerRowInVH = 5;
-
     const hrs = 24;
     const minsPerSection = 30;
     const numOfSections = hrs * (60 / minsPerSection);
-
     let i = 0;
     const listItems = [];
     while (i < numOfSections) {
         const dateTime = moment(day).startOf('day').add(i * minsPerSection, 'minutes');
 
         const event = events?.find(event =>
-            event.start.isSame(dateTime) || event.start.isBetween(dateTime, moment(dateTime).add(minsPerSection, 'minutes'))
+            event.startDateTime.isSame(dateTime) || event.startDateTime.isBetween(dateTime, moment(dateTime).add(minsPerSection, 'minutes'))
         );
 
         let rowSpan = 1;
         if (event) {
-            const start = moment(event.start);
-            const end = moment(event.end);
-            rowSpan = end.diff(start, 'minutes') / minsPerSection;
+            const startDateTime = moment(event.startDateTime);
+            const endDateTime = moment(event.endDateTime);
+            rowSpan = endDateTime.diff(startDateTime, 'minutes') / minsPerSection;
         }
 
         listItems.push(
