@@ -1,15 +1,51 @@
 import './App.css';
-import { useState } from 'react';
-import Login from './components/auth/Login';
 import Calendar from './components/calendar/Calendar';
 import { Amplify } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import awsExports from './aws-exports';
 import '@aws-amplify/ui-react/styles.css';
+import {
+  AppBar, Container, Toolbar, Typography, Box, Button
+} from '@mui/material';
+
+function Header({ signOut, user }) {
+  return (<AppBar position="static">
+    <Container maxWidth="xl">
+      <Toolbar disableGutters>
+        <Typography
+          variant="h5"
+          noWrap
+          component="a"
+          href=""
+          sx={{
+            mr: 2,
+            display: { xs: 'flex' },
+            flexGrow: 1,
+            fontFamily: 'monospace',
+            fontWeight: 700,
+            letterSpacing: '.3rem',
+            color: 'inherit',
+            textDecoration: 'none',
+          }}
+        >
+          {user && user.attributes.email}
+        </Typography>
+
+        <Box sx={{ flexGrow: 0 }}>
+          <Button
+            variant='contained'
+            color="secondary"
+            onClick={signOut}>
+            Sign Out
+          </Button>
+        </Box>
+      </Toolbar>
+    </Container>
+  </AppBar>
+  );
+}
 
 function App() {
-  let [userId, setUserId] = useState(null);
-
   // Configure Amplify in index file or root file
   Amplify.configure({
     Auth: {
@@ -19,24 +55,16 @@ function App() {
     }
   })
 
-  const onLogin = (id) => {
-    setUserId(id);
-    console.log('Login with id: ' + id);
-  };
-
   return (
     <Authenticator>
-      {({ signOut, user }) => (
+      {({ signOut, user }) =>
         <div className="App">
-          <header className="App-header">
-            <h3>{user.username}</h3>
-            <button onClick={signOut}>Sign out</button>
-          </header>
+          <Header signOut={signOut} user={user} />
           <div className="App-content">
-            {userId ? <Calendar /> : <Login onLogin={onLogin} />}
+            <Calendar />
           </div>
         </div>
-      )}
+      }
     </Authenticator>
   );
 }
