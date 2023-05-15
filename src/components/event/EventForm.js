@@ -15,6 +15,7 @@ export default function EventForm({ onSubmit, selectedEvent }) {
         e.preventDefault();
 
         const event = {
+            id: selectedEvent.id,
             title,
             startDateTime,
             endDateTime,

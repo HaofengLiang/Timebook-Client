@@ -49,7 +49,7 @@ export default function WeekDay({ events, day, onEventSelect, isHeader }) {
                 </ListItem> :
                 <ListItem key={dateTime.format('MM-DD-yyyy-hh-mm-A') + "-list-item"} className='datetimeItem' style={{ height: (rowSpan * heightPerRowInVH) + "vh" }}>
                     <ListItemButton onClick={() => onEventSelect(event || defaultEvent)} className="datetimeButton">
-                        {event?.id && <Event event={event} /> }
+                        {event && <Event event={event} /> }
                     </ListItemButton>
                 </ListItem >
         );
