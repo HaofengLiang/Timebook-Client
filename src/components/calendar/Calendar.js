@@ -45,7 +45,7 @@ export default function Calendar() {
         <Fragment>
             <Modal open={showForm} onClose={() => setShowForm(false)}>
                 <Box sx={style}>
-                    <EventForm startDateTime={selectedDateTime} onSubmit={eventAddHandler} />
+                    <EventForm start={selectedDateTime} onSubmit={eventAddHandler} />
                 </Box>
             </Modal>
             <WeekView onDateTimeSelect={dateTimeSelectedHander} selectedDate={today} events={events} />
