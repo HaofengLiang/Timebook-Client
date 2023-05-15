@@ -18,8 +18,8 @@ const style = {
 
 export default function Calendar() {
     const [showForm, setShowForm] = useState(false);
-    const [selectedDateTime, setSelectedDateTime] = useState(moment());
     const [events, setEvents] = useState([]);
+    const [selectedEvent, setSelectedEvent] = useState({});
     const today = moment();
 
     useEffect(() =>{
@@ -36,8 +36,9 @@ export default function Calendar() {
         setShowForm(false);
     }
 
-    const dateTimeSelectedHander = (dateTime) => {
-        setSelectedDateTime(dateTime);
+    const eventSelectedHander = (event) => {
+        setSelectedEvent(event);
+        console.log(selectedEvent);
         setShowForm(true);
     }
 
@@ -45,10 +46,10 @@ export default function Calendar() {
         <Fragment>
             <Modal open={showForm} onClose={() => setShowForm(false)}>
                 <Box sx={style}>
-                    <EventForm start={selectedDateTime} onSubmit={eventAddHandler} />
+                    <EventForm selectedEvent={selectedEvent} onSubmit={eventAddHandler} />
                 </Box>
             </Modal>
-            <WeekView onDateTimeSelect={dateTimeSelectedHander} selectedDate={today} events={events} />
+            <WeekView onEventSelect={eventSelectedHander} selectedDate={today} events={events} />
         </Fragment>
     );
 }
