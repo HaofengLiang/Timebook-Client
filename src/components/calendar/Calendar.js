@@ -30,9 +30,9 @@ export default function Calendar() {
         
         fetchData()
     },[])
-    const eventAddHandler = (event) => {
-        saveEvent(event);
-        setEvents([...events, event]);
+    const eventAddHandler = async (event) => {
+        const savedEvent = await saveEvent(event);
+        setEvents([...events, savedEvent]);
         setShowForm(false);
     }
 
