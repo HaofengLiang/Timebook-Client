@@ -39,7 +39,8 @@ export default function WeekDay({ events, day, onEventSelect, isHeader }) {
         if (event) {
             const startDateTime = moment(event.startDateTime);
             const endDateTime = moment(event.endDateTime);
-            rowSpan = endDateTime.diff(startDateTime, 'minutes') / minsPerSection;
+            const minsDiff = endDateTime.diff(startDateTime, 'minutes');
+            rowSpan = minsDiff === 0 ? 1 : minsDiff / minsPerSection;
         }
 
         listItems.push(
