@@ -33,6 +33,22 @@ export async function fetchEvents() {
     return weekEvents;
 }
 
+export async function fetchEventsByWeek(date) {
+    let weekEvents = [];
+
+    await axios.get(`${apiUrl}/calendar/week/${date.format('YYYY-MM-DD')}`).then(res => {
+        weekEvents = res.data;
+        weekEvents.forEach(event => {
+            event.startDateTime = moment(event.startDateTime);
+            event.endDateTime = moment(event.endDateTime)
+        })
+    }).catch(
+        error => console.log(error)
+    );
+
+    return weekEvents;
+}
+
 export function saveEvent(event) {
     // TODO: Call actual service to save event.
     console.log("Saving event...")
