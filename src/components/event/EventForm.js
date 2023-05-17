@@ -84,6 +84,7 @@ export default function EventForm({ onSubmit, selectedEvent }) {
                         <Grid item xs={12}>
                             <TextField
                                 label="Priority"
+                                type = "number"
                                 fullWidth
                                 value={priority}
                                 onChange={(e) => setPriority(e.target.value)}
