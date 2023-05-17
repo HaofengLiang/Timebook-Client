@@ -23,7 +23,7 @@ export default function WeekDay({ events, day, onEventSelect, isHeader }) {
     while (i < numOfSections) {
         const dateTime = moment(day).startOf('day').add(i * minsPerSection, 'minutes');
 
-        const defaultEvent = {
+        const newEvent = {
             title:'',
             startDateTime: dateTime,
             endDateTime: moment(dateTime).add(minsPerSection, 'minutes'),
@@ -40,7 +40,7 @@ export default function WeekDay({ events, day, onEventSelect, isHeader }) {
             const startDateTime = moment(event.startDateTime);
             const endDateTime = moment(event.endDateTime);
             const minsDiff = endDateTime.diff(startDateTime, 'minutes');
-            rowSpan = minsDiff === 0 ? 1 : minsDiff / minsPerSection;
+            rowSpan = minsDiff === 0 ? 1 : Math.ceil(minsDiff / minsPerSection);
         }
 
         listItems.push(
@@ -49,7 +49,7 @@ export default function WeekDay({ events, day, onEventSelect, isHeader }) {
                     <ListItemText primary={dateTime.format('hh:mm A')} />
                 </ListItem> :
                 <ListItem key={dateTime.format('MM-DD-yyyy-hh-mm-A') + "-list-item"} className='datetimeItem' style={{ height: (rowSpan * heightPerRowInVH) + "vh" }}>
-                    <ListItemButton onClick={() => onEventSelect(event || defaultEvent)} className="datetimeButton">
+                    <ListItemButton onClick={() => onEventSelect(event || newEvent)} className="datetimeButton">
                         {event && <Event event={event} /> }
                     </ListItemButton>
                 </ListItem >
