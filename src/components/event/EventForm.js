@@ -1,32 +1,44 @@
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import { Fragment, useState } from 'react';
-import moment from "moment";
+import { Fragment, useEffect, useState } from 'react';
 
 
-export default function EventForm({ onSubmit, start }) {
-    start = moment(start).isBefore(moment(start).startOf('hour').add(30, "minutes"))
-        ? moment(start).startOf('hour') : moment(start).startOf('hour').add(30, "minutes")
-
-    const [title, setTitle] = useState('');
-    const [startDateTime, setStartDateTime] = useState(start);
-    const [endDateTime, setEndDateTime] = useState(moment(startDateTime).add(30, "minutes"));
-    const [description, setDescription] = useState('');
-    const [priority, setPriority] = useState(0);
+export default function EventForm({ onSubmit, selectedEvent }) {
+    const [title, setTitle] = useState(selectedEvent.title);
+    const [startDateTime, setStartDateTime] = useState(selectedEvent.startDateTime);
+    const [endDateTime, setEndDateTime] = useState(selectedEvent.endDateTime);
+    const [description, setDescription] = useState(selectedEvent.description);
+    const [priority, setPriority] = useState(selectedEvent.priority);
+    const [isFormValid, setIsFormValid] = useState(false);
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
 
-        const event = {
-            title,
-            startDateTime,
-            endDateTime,
-            description,
-            priority
+        if(!isFormValid)
+        alert('Ha I got you trying to bypass the required fields, you cannot save your event with empty fields');
+
+        else{
+            const event = {
+                id: selectedEvent.id,
+                title,
+                startDateTime,
+                endDateTime,
+                description,
+                priority
+            }
+            onSubmit(event);
         }
-        onSubmit(event);
     }
+
+    useEffect(()=>{
+        //if title,description input is empty then setButtonDiabled to true
+        if(!title.trim() || !description.trim() || priority < 0)
+        setIsFormValid(false);
+        else
+        setIsFormValid(true);
+
+    },[title, description, priority]);
 
     return (
         <Fragment>
@@ -72,13 +84,14 @@ export default function EventForm({ onSubmit, start }) {
                         <Grid item xs={12}>
                             <TextField
                                 label="Priority"
+                                type = "number"
                                 fullWidth
                                 value={priority}
                                 onChange={(e) => setPriority(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <Button variant="contained" color="primary" type="submit">Save</Button>
+                            <Button variant="contained" color="primary" type="submit" disabled={!isFormValid}>Save</Button>
                         </Grid>
                     </Grid>
                 </form>

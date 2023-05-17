@@ -49,8 +49,16 @@ export async function fetchEventsByWeek(date) {
     return weekEvents;
 }
 
-export function saveEvent(event) {
-    // TODO: Call actual service to save event.
-    console.log("Saving event...")
-    console.log(event);
+export async function saveEvent(event) {
+    let savedEvent = {}
+    await axios.post(`${apiUrl}/events`, event).then(res => {
+        savedEvent = res.data
+    }).catch(
+        error => console.log(error)
+    );
+    return {
+        ...savedEvent,
+        startDateTime: moment.utc(savedEvent.startDateTime).local(),
+        endDateTime: moment.utc(savedEvent.endDateTime).local()
+    };
 }
