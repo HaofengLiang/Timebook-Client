@@ -10,12 +10,12 @@ export default function EventForm({ onSubmit, selectedEvent }) {
     const [endDateTime, setEndDateTime] = useState(selectedEvent.endDateTime);
     const [description, setDescription] = useState(selectedEvent.description);
     const [priority, setPriority] = useState(selectedEvent.priority);
-    const [buttonDisabled, setButtonDisabled] = useState(true);
+    const [isFormValid, setIsFormValid] = useState(false);
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
 
-        if(!title.trim() || !description.trim() || priority < 0)
+        if(!isFormValid)
         alert('Ha I got you trying to bypass the required fields, you cannot save your event with empty fields');
 
         else{
@@ -34,9 +34,9 @@ export default function EventForm({ onSubmit, selectedEvent }) {
     useEffect(()=>{
         //if title,description input is empty then setButtonDiabled to true
         if(!title.trim() || !description.trim() || priority < 0)
-        setButtonDisabled(true);
+        setIsFormValid(false);
         else
-        setButtonDisabled(false);
+        setIsFormValid(true);
 
     },[title, description, priority]);
 
@@ -91,7 +91,7 @@ export default function EventForm({ onSubmit, selectedEvent }) {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <Button variant="contained" color="primary" type="submit" disabled={buttonDisabled}>Save</Button>
+                            <Button variant="contained" color="primary" type="submit" disabled={!isFormValid}>Save</Button>
                         </Grid>
                     </Grid>
                 </form>
