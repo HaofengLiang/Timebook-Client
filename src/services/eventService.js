@@ -24,8 +24,8 @@ export async function fetchEvents() {
     await axios.get(`${apiUrl}/events`).then(res => {
         weekEvents = res.data;
         weekEvents.forEach(event => {
-            event.startDateTime = moment(event.startDateTime);
-            event.endDateTime = moment(event.endDateTime)
+            event.startDateTime = moment.utc(event.startDateTime).local();
+            event.endDateTime = moment.utc(event.endDateTime).local()
         })
     }).catch(
         error => console.log(error)
@@ -40,5 +40,9 @@ export async function saveEvent (event) {
     }).catch(
         error => console.log(error)
     );
-    return savedEvent;
+    return {
+        ...savedEvent,
+        startDateTime: moment.utc(savedEvent.startDateTime).local(),
+        endDateTime: moment.utc(savedEvent.endDateTime).local()
+        };
 }
