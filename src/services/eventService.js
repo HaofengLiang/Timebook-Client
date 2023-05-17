@@ -4,6 +4,14 @@ import { Auth } from 'aws-amplify';
 
 const apiUrl = 'http://localhost:8080/v1';
 
+function transformEvent(event) {
+    return {
+        ...event,
+        startDateTime: moment.utc(event.startDateTime).local(),
+        endDateTime: moment.utc(event.endDateTime).local()
+    }
+}
+
 async function getAuthToken() {
     const session = await Auth.currentSession();
     return 'Bearer ' + session.getIdToken().getJwtToken();
@@ -22,27 +30,31 @@ axios.interceptors.request.use(
 export async function fetchEvents() {
     let weekEvents = [];
     await axios.get(`${apiUrl}/events`).then(res => {
-        weekEvents = res.data;
-        weekEvents.forEach(event => {
-            event.startDateTime = moment.utc(event.startDateTime).local();
-            event.endDateTime = moment.utc(event.endDateTime).local()
-        })
+        weekEvents = res.data.map(event => transformEvent(event));
     }).catch(
         error => console.log(error)
     );
     return weekEvents;
 }
 
-export async function saveEvent (event) {
-    let savedEvent = {}
-    await axios.post(`${apiUrl}/events`,event).then(res =>{
-        savedEvent = res.data
+export async function fetchEventsByWeek(date) {
+    let weekEvents = [];
+
+    await axios.get(`${apiUrl}/calendar/week/${date.format('YYYY-MM-DD')}`).then(res => {
+        weekEvents = res.data.map(event => transformEvent(event));
     }).catch(
         error => console.log(error)
     );
-    return {
-        ...savedEvent,
-        startDateTime: moment.utc(savedEvent.startDateTime).local(),
-        endDateTime: moment.utc(savedEvent.endDateTime).local()
-        };
+
+    return weekEvents;
+}
+
+export async function saveEvent(event) {
+    let savedEvent = {}
+    await axios.post(`${apiUrl}/events`, event).then(res => {
+        savedEvent = transformEvent(res.data)
+    }).catch(
+        error => console.log(error)
+    );
+    return savedEvent;
 }

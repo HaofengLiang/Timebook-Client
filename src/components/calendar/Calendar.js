@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import WeekView from "./week/WeekView";
 import EventForm from "../event/EventForm";
 import { Modal, Box } from "@mui/material";
-import { fetchEvents, saveEvent } from "../../services/eventService";
+import { fetchEventsByWeek, saveEvent } from "../../services/eventService";
 import moment from "moment";
 
 const style = {
@@ -22,15 +22,15 @@ export default function Calendar() {
     const [selectedEvent, setSelectedEvent] = useState({});
     const today = moment();
 
-    useEffect(() =>{
+    useEffect(() => {
         async function fetchData() {
-            const events = await fetchEvents();
+            const events = await fetchEventsByWeek(moment());
             setEvents(events);
         }
-        
+
         fetchData()
-    },[])
-    
+    }, [])
+
     const eventAddHandler = async (event) => {
         const savedEvent = await saveEvent(event);
         setEvents([...events.filter(item => item.id !== savedEvent.id), savedEvent]);
