@@ -2,23 +2,20 @@ import { Button, Grid, TextField, Typography } from "@mui/material";
 import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { Fragment, useState } from 'react';
-import moment from "moment";
 
 
-export default function EventForm({ onSubmit, start }) {
-    start = moment(start).isBefore(moment(start).startOf('hour').add(30, "minutes"))
-        ? moment(start).startOf('hour') : moment(start).startOf('hour').add(30, "minutes")
-
-    const [title, setTitle] = useState('');
-    const [startDateTime, setStartDateTime] = useState(start);
-    const [endDateTime, setEndDateTime] = useState(moment(startDateTime).add(30, "minutes"));
-    const [description, setDescription] = useState('');
-    const [priority, setPriority] = useState(0);
+export default function EventForm({ onSubmit, selectedEvent }) {
+    const [title, setTitle] = useState(selectedEvent.title);
+    const [startDateTime, setStartDateTime] = useState(selectedEvent.startDateTime);
+    const [endDateTime, setEndDateTime] = useState(selectedEvent.endDateTime);
+    const [description, setDescription] = useState(selectedEvent.description);
+    const [priority, setPriority] = useState(selectedEvent.priority);
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
 
         const event = {
+            id: selectedEvent.id,
             title,
             startDateTime,
             endDateTime,
