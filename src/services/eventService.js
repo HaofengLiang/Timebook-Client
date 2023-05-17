@@ -56,9 +56,5 @@ export async function saveEvent(event) {
     }).catch(
         error => console.log(error)
     );
-    return {
-        ...savedEvent,
-        startDateTime: moment.utc(savedEvent.startDateTime).local(),
-        endDateTime: moment.utc(savedEvent.endDateTime).local()
-    };
+    return transformEvent(savedEvent);
 }
