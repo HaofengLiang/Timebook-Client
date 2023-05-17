@@ -33,7 +33,7 @@ export default function Calendar() {
     
     const eventAddHandler = async (event) => {
         const savedEvent = await saveEvent(event);
-        setEvents([...events.filter(item => item !== event), savedEvent]);
+        setEvents([...events.filter(item => item.id !== savedEvent.id), savedEvent]);
         setShowForm(false);
     }
 
