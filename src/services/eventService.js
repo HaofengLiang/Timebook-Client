@@ -4,6 +4,14 @@ import { Auth } from 'aws-amplify';
 
 const apiUrl = 'http://localhost:8080/v1';
 
+function transformEvent(event) {
+    return {
+        ...event,
+        startDateTime: moment.utc(event.startDateTime).local(),
+        endDateTime: moment.utc(event.endDateTime).local()
+    }
+}
+
 async function getAuthToken() {
     const session = await Auth.currentSession();
     return 'Bearer ' + session.getIdToken().getJwtToken();
@@ -23,10 +31,7 @@ export async function fetchEvents() {
     let weekEvents = [];
     await axios.get(`${apiUrl}/events`).then(res => {
         weekEvents = res.data;
-        weekEvents.forEach(event => {
-            event.startDateTime = moment(event.startDateTime);
-            event.endDateTime = moment(event.endDateTime)
-        })
+        weekEvents.map(event => transformEvent(event));
     }).catch(
         error => console.log(error)
     );
@@ -38,10 +43,7 @@ export async function fetchEventsByWeek(date) {
 
     await axios.get(`${apiUrl}/calendar/week/${date.format('YYYY-MM-DD')}`).then(res => {
         weekEvents = res.data;
-        weekEvents.forEach(event => {
-            event.startDateTime = moment(event.startDateTime);
-            event.endDateTime = moment(event.endDateTime)
-        })
+        weekEvents.forEach(event => transformEvent(event));
     }).catch(
         error => console.log(error)
     );
