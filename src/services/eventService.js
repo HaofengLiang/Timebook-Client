@@ -52,9 +52,9 @@ export async function fetchEventsByWeek(date) {
 export async function saveEvent(event) {
     let savedEvent = {}
     await axios.post(`${apiUrl}/events`, event).then(res => {
-        savedEvent = res.data
+        savedEvent = transformEvent(res.data)
     }).catch(
         error => console.log(error)
     );
-    return transformEvent(savedEvent);
+    return savedEvent;
 }
