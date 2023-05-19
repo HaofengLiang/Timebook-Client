@@ -2,7 +2,9 @@ import React, { Fragment, useEffect, useState } from "react";
 import WeekView from "./week/WeekView";
 import EventForm from "../event/EventForm";
 import { Modal, Box } from "@mui/material";
-import { fetchEventsByWeek, saveEvent } from "../../services/eventService";
+import { fetchEventsByWeek } from "../../services/eventService";
+import { saveEvent  } from "../../reducers/eventsSlice";
+import { useDispatch } from "react-redux";
 import moment from "moment";
 
 const style = {
@@ -18,22 +20,22 @@ const style = {
 
 export default function Calendar() {
     const [showForm, setShowForm] = useState(false);
-    const [events, setEvents] = useState([]);
+    // const [events, setEvents] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState({});
+    const dispatch = useDispatch();
     const today = moment();
 
-    useEffect(() => {
-        async function fetchData() {
-            const events = await fetchEventsByWeek(moment());
-            setEvents(events);
-        }
+    // useEffect(() => {
+    //     async function fetchData() {
+    //         const events = await fetchEventsByWeek(moment());
+    //         setEvents(events);
+    //     }
 
-        fetchData()
-    }, [])
+    //     fetchData()
+    // }, [])
 
     const eventAddHandler = async (event) => {
-        const savedEvent = await saveEvent(event);
-        setEvents([...events.filter(item => item.id !== savedEvent.id), savedEvent]);
+        dispatch(saveEvent(event));
         setShowForm(false);
     }
 
@@ -49,7 +51,7 @@ export default function Calendar() {
                     <EventForm selectedEvent={selectedEvent} onSubmit={eventAddHandler} />
                 </Box>
             </Modal>
-            <WeekView onEventSelect={eventSelectedHander} selectedDate={today} events={events} />
+            <WeekView onEventSelect={eventSelectedHander} selectedDate={today} />
         </Fragment>
     );
 }

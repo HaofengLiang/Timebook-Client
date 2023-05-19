@@ -1,5 +1,6 @@
 import "./Weekday.css"
 import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { useSelector } from 'react-redux'
 import moment from 'moment';
 
 function Event({ event }) {
@@ -12,7 +13,8 @@ function Event({ event }) {
     );
 };
 
-export default function WeekDay({ events, day, onEventSelect, isHeader }) {
+export default function WeekDay({ day, onEventSelect, isHeader }) {
+    const events = useSelector((state) => state.events.value.filter(item => item.startDateTime.isSame(day, "day")))
     const heightPerRowInVH = 5;
     const hrs = 24;
     const minsPerSection = 30;
