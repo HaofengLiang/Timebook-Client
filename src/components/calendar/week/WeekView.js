@@ -24,7 +24,8 @@ function getEventsForDay(day, events) {
 }
 
 export default function WeekView({
-    selectedDate, events, onEventSelect, onNextWeekClick, onPreviousWeekClick }) {
+    selectedDate, events, onEventSelect, onNextWeekClick, onPreviousWeekClick
+}) {
     const days = [0, 1, 2, 3, 4, 5, 6].map((dayOffset) =>
         moment(selectedDate).startOf('week').add(dayOffset, 'day')
     )

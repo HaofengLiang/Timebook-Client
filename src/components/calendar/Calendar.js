@@ -31,25 +31,19 @@ export default function Calendar() {
         fetchData();
     }, [selectedDateTime])
 
-    const updateEventsByWeek = async (newDateTime) => {
-        await fetchEventsByWeek(newDateTime);
-        setSelectedDateTime(newDateTime);
-        console.log(newDateTime.format('MM-DD-YYYY'));
-    }
-
     const selectNextWeekHandler = () => {
         const newDateTime = moment(selectedDateTime).add(1, 'week');
-        updateEventsByWeek(newDateTime);
+        setSelectedDateTime(newDateTime);
     }
 
     const selectPreviousWeekHandler = () => {
         const newDateTime = moment(selectedDateTime).subtract(1, 'week');
-        updateEventsByWeek(newDateTime);
+        setSelectedDateTime(newDateTime);
     }
 
     const eventAddHandler = (event) => {
-        saveEvent(event);
-        setEvents([...events, event]);
+        const savedEvent = saveEvent(event);
+        setEvents([...events.filter(item => item.id !== savedEvent.id), savedEvent]);
         setShowForm(false);
     }
 
