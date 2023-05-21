@@ -38,15 +38,7 @@ export async function fetchEvents() {
 }
 
 export async function fetchEventsByWeek(date) {
-    let weekEvents = [];
-
-    await axios.get(`${apiUrl}/calendar/week/${date.format('YYYY-MM-DD')}`).then(res => {
-        weekEvents = res.data.map(event => transformEvent(event));
-    }).catch(
-        error => console.log(error)
-    );
-
-    return weekEvents;
+    return axios.get(`${apiUrl}/calendar/week/${date.format('YYYY-MM-DD')}`);
 }
 
 export function saveEvent(event) {

@@ -14,7 +14,7 @@ function Event({ event }) {
 };
 
 export default function WeekDay({ day, onEventSelect, isHeader }) {
-    const events = useSelector((state) => state.events.value.filter(item => item.startDateTime.isSame(day, "day")))
+    const events = useSelector((state) => state.events.value.filter(item => item.startDateTime.isSame(day, "day")));
     const heightPerRowInVH = 5;
     const hrs = 24;
     const minsPerSection = 30;

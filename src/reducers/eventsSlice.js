@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { saveEvent as saveEventApi } from "../services/eventService";
+import { saveEvent as saveEventApi, fetchEventsByWeek } from "../services/eventService";
 import moment from "moment";
 
 // export const GET_EVETN = "GET_EVENTS";
@@ -20,6 +20,11 @@ export const saveEvent = createAsyncThunk('events/savedEvent', async (event) => 
     return response.data;
 })
 
+export const getEvents = createAsyncThunk('events/getEvents', async (date) => {
+    const response = await fetchEventsByWeek(date);
+    return response.data;
+})
+
 export const eventsSlice = createSlice({
     name: 'events',
     initialState: {
@@ -30,6 +35,17 @@ export const eventsSlice = createSlice({
     reducers: {},
     extraReducers(builder) {
         builder
+        .addCase(getEvents.pending, (state, action) => {
+            state.status = 'loading'
+          })
+          .addCase(getEvents.fulfilled, (state, action) => {
+            state.status = 'succeeded'
+            state.value = action.payload.map(event => transformEvent(event));
+          })
+          .addCase(getEvents.rejected, (state, action) => {
+            state.status = 'failed'
+            state.error = action.error.message
+          })       
           .addCase(saveEvent.pending, (state, action) => {
             state.status = 'loading'
           })
