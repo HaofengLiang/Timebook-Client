@@ -2,6 +2,8 @@ import React, { Fragment, useEffect, useState } from "react";
 import WeekView from "./week/WeekView";
 import EventForm from "../event/EventForm";
 import { Modal, Box } from "@mui/material";
+import { saveEvent, getEvents  } from "../../reducers/eventsSlice";
+import { useDispatch } from "react-redux";
 import { deleteEvent, fetchEventsByWeek, saveEvent } from "../../services/eventService";
 import moment from "moment";
 
@@ -19,17 +21,13 @@ const style = {
 export default function Calendar() {
     const [showForm, setShowForm] = useState(false);
     const [selectedDateTime, setSelectedDateTime] = useState(moment());
-    const [events, setEvents] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState({});
+    const dispatch = useDispatch();
+    const today = moment();
 
     useEffect(() => {
-        async function fetchData() {
-            const events = await fetchEventsByWeek(selectedDateTime);
-            setEvents(events);
-        }
-
-        fetchData();
-    }, [selectedDateTime])
+        dispatch(getEvents(today));
+    },[dispatch, today])
 
     const selectNextWeekHandler = () => {
         const newDateTime = moment(selectedDateTime).add(1, 'week');
@@ -41,15 +39,8 @@ export default function Calendar() {
         setSelectedDateTime(newDateTime);
     }
 
-    const eventAddHandler = (event) => {
-        const savedEvent = saveEvent(event);
-        setEvents([...events.filter(item => item.id !== savedEvent.id), savedEvent]);
-        setShowForm(false);
-    }
-
-    const eventDeleteHandler = async (event) => {
-        const deletedEventId = await deleteEvent(event);
-        setEvents(events.filter(item => item.id !== deletedEventId));
+    const eventAddHandler = async (event) => {
+        dispatch(saveEvent(event));
         setShowForm(false);
     }
 
@@ -70,7 +61,6 @@ export default function Calendar() {
                 onPreviousWeekClick={selectPreviousWeekHandler}
                 onEventSelect={eventSelectedHander}
                 selectedDate={selectedDateTime}
-                events={events}
             />
         </Fragment>
     );
