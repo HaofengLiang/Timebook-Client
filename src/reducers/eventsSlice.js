@@ -65,7 +65,6 @@ export const eventsSlice = createSlice({
         })
         .addCase(deleteEvent.fulfilled, (state, action) => {
           state.status = 'succeeded'
-          console.log(action.payload)
           state.value = state.value.filter(item => item.id !== action.payload)
         })
         .addCase(deleteEvent.rejected, (state, action) => {
