@@ -4,7 +4,7 @@ import EventForm from "../event/EventForm";
 import { Modal, Box } from "@mui/material";
 import { saveEvent, getEvents  } from "../../reducers/eventsSlice";
 import { useDispatch } from "react-redux";
-import { deleteEvent, fetchEventsByWeek, saveEvent } from "../../services/eventService";
+import { deleteEvent } from "../../services/eventService";
 import moment from "moment";
 
 const style = {
@@ -47,6 +47,11 @@ export default function Calendar() {
     const eventSelectedHander = (event) => {
         setSelectedEvent(event);
         setShowForm(true);
+    }
+
+    const eventDeleteHandler = async (event) => {
+        dispatch(deleteEvent(event));
+        setShowForm(false);
     }
 
     return (

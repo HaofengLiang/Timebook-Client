@@ -46,9 +46,6 @@ export function saveEvent(event) {
 }
 
 export async function deleteEvent(event){
-    let eventId = event.id
-    await axios.delete(`${apiUrl}/events/${eventId}`).catch(
-        error => console.log(error)
-    );
-    return eventId;
+    await axios.delete(`${apiUrl}/events/${event.id}`);
+    return event;
 }
