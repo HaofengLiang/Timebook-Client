@@ -18,21 +18,31 @@ const style = {
 
 export default function Calendar() {
     const [showForm, setShowForm] = useState(false);
+    const [selectedDateTime, setSelectedDateTime] = useState(moment());
     const [events, setEvents] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState({});
-    const today = moment();
 
     useEffect(() => {
         async function fetchData() {
-            const events = await fetchEventsByWeek(moment());
+            const events = await fetchEventsByWeek(selectedDateTime);
             setEvents(events);
         }
 
-        fetchData()
-    }, [])
+        fetchData();
+    }, [selectedDateTime])
 
-    const eventAddHandler = async (event) => {
-        const savedEvent = await saveEvent(event);
+    const selectNextWeekHandler = () => {
+        const newDateTime = moment(selectedDateTime).add(1, 'week');
+        setSelectedDateTime(newDateTime);
+    }
+
+    const selectPreviousWeekHandler = () => {
+        const newDateTime = moment(selectedDateTime).subtract(1, 'week');
+        setSelectedDateTime(newDateTime);
+    }
+
+    const eventAddHandler = (event) => {
+        const savedEvent = saveEvent(event);
         setEvents([...events.filter(item => item.id !== savedEvent.id), savedEvent]);
         setShowForm(false);
     }
@@ -55,7 +65,13 @@ export default function Calendar() {
                     <EventForm selectedEvent={selectedEvent} onSubmit={eventAddHandler} onDelete={eventDeleteHandler}/>
                 </Box>
             </Modal>
-            <WeekView onEventSelect={eventSelectedHander} selectedDate={today} events={events} />
+            <WeekView
+                onNextWeekClick={selectNextWeekHandler}
+                onPreviousWeekClick={selectPreviousWeekHandler}
+                onEventSelect={eventSelectedHander}
+                selectedDate={selectedDateTime}
+                events={events}
+            />
         </Fragment>
     );
 }
