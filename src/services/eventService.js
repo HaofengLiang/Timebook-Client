@@ -44,3 +44,7 @@ export async function fetchEventsByWeek(date) {
 export function saveEvent(event) {
     return axios.post(`${apiUrl}/events`, event);
 }
+
+export function deleteEvent(eventId){
+    return axios.delete(`${apiUrl}/events/${eventId}`);
+}
