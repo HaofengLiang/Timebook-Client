@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import WeekView from "./week/WeekView";
 import EventForm from "../event/EventForm";
 import { Modal, Box } from "@mui/material";
-import { fetchEventsByWeek, saveEvent } from "../../services/eventService";
+import { deleteEvent, fetchEventsByWeek, saveEvent } from "../../services/eventService";
 import moment from "moment";
 
 const style = {
@@ -37,6 +37,12 @@ export default function Calendar() {
         setShowForm(false);
     }
 
+    const eventDeleteHandler = async (event) => {
+        const deletedEventId = await deleteEvent(event);
+        setEvents(events.filter(item => item.id !== deletedEventId));
+        setShowForm(false);
+    }
+
     const eventSelectedHander = (event) => {
         setSelectedEvent(event);
         setShowForm(true);
@@ -46,7 +52,7 @@ export default function Calendar() {
         <Fragment>
             <Modal open={showForm} onClose={() => setShowForm(false)}>
                 <Box sx={style}>
-                    <EventForm selectedEvent={selectedEvent} onSubmit={eventAddHandler} />
+                    <EventForm selectedEvent={selectedEvent} onSubmit={eventAddHandler} onDelete={eventDeleteHandler}/>
                 </Box>
             </Modal>
             <WeekView onEventSelect={eventSelectedHander} selectedDate={today} events={events} />

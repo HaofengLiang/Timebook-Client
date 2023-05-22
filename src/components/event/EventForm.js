@@ -4,7 +4,7 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { Fragment, useEffect, useState } from 'react';
 
 
-export default function EventForm({ onSubmit, selectedEvent }) {
+export default function EventForm({ onSubmit, onDelete, selectedEvent }) {
     const [title, setTitle] = useState(selectedEvent.title);
     const [startDateTime, setStartDateTime] = useState(selectedEvent.startDateTime);
     const [endDateTime, setEndDateTime] = useState(selectedEvent.endDateTime);
@@ -90,8 +90,11 @@ export default function EventForm({ onSubmit, selectedEvent }) {
                                 onChange={(e) => setPriority(e.target.value)}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={2}>
                             <Button variant="contained" color="primary" type="submit" disabled={!isFormValid}>Save</Button>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Button variant="contained" corlor= "primary" type="button" onClick={() => {onDelete(selectedEvent)}}>Delete</Button>
                         </Grid>
                     </Grid>
                 </form>
