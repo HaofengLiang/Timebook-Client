@@ -19,6 +19,7 @@ const style = {
 
 export default function Calendar() {
     const [showForm, setShowForm] = useState(false);
+    const [selectedDateTime, setSelectedDateTime] = useState(moment());
     const [selectedEvent, setSelectedEvent] = useState({});
     const dispatch = useDispatch();
     const today = moment();
@@ -27,11 +28,20 @@ export default function Calendar() {
         dispatch(getEvents(today));
     },[dispatch, today])
 
+    const selectNextWeekHandler = () => {
+        const newDateTime = moment(selectedDateTime).add(1, 'week');
+        setSelectedDateTime(newDateTime);
+    }
+
+    const selectPreviousWeekHandler = () => {
+        const newDateTime = moment(selectedDateTime).subtract(1, 'week');
+        setSelectedDateTime(newDateTime);
+    }
+
     const eventAddHandler = async (event) => {
         dispatch(saveEvent(event));
         setShowForm(false);
     }
-
     const eventSelectedHander = (event) => {
         setSelectedEvent(event);
         setShowForm(true);
@@ -44,7 +54,12 @@ export default function Calendar() {
                     <EventForm selectedEvent={selectedEvent} onSubmit={eventAddHandler} />
                 </Box>
             </Modal>
-            <WeekView onEventSelect={eventSelectedHander} selectedDate={today} />
+            <WeekView
+                onNextWeekClick={selectNextWeekHandler}
+                onPreviousWeekClick={selectPreviousWeekHandler}
+                onEventSelect={eventSelectedHander}
+                selectedDate={selectedDateTime}
+            />
         </Fragment>
     );
 }

@@ -36,27 +36,27 @@ export const eventsSlice = createSlice({
     extraReducers(builder) {
         builder
         .addCase(getEvents.pending, (state, action) => {
-            state.status = 'loading'
-          })
-          .addCase(getEvents.fulfilled, (state, action) => {
-            state.status = 'succeeded'
-            state.value = action.payload.map(event => transformEvent(event));
-          })
-          .addCase(getEvents.rejected, (state, action) => {
-            state.status = 'failed'
-            state.error = action.error.message
-          })       
-          .addCase(saveEvent.pending, (state, action) => {
-            state.status = 'loading'
-          })
-          .addCase(saveEvent.fulfilled, (state, action) => {
-            state.status = 'succeeded'
-            state.value = [...state.value.filter(item => item.id !== action.payload.id), transformEvent(action.payload)]
-          })
-          .addCase(saveEvent.rejected, (state, action) => {
-            state.status = 'failed'
-            state.error = action.error.message
-          })
+          state.status = 'loading'
+        })
+        .addCase(getEvents.fulfilled, (state, action) => {
+          state.status = 'succeeded'
+          state.value = action.payload.map(event => transformEvent(event));
+        })
+        .addCase(getEvents.rejected, (state, action) => {
+          state.status = 'failed'
+          state.error = action.error.message
+        })       
+        .addCase(saveEvent.pending, (state, action) => {
+          state.status = 'loading'
+        })
+        .addCase(saveEvent.fulfilled, (state, action) => {
+          state.status = 'succeeded'
+          state.value = [...state.value.filter(item => item.id !== action.payload.id), transformEvent(action.payload)]
+        })
+        .addCase(saveEvent.rejected, (state, action) => {
+          state.status = 'failed'
+          state.error = action.error.message
+        })
       }
 })
 
