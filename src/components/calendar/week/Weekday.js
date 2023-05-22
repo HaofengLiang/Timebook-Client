@@ -47,7 +47,7 @@ export default function WeekDay({ day, onEventSelect, isHeader }) {
 
         listItems.push(
             isHeader ?
-                <ListItem key={dateTime.format('hh-mm-A') + "list-itemsss"} className='datetimeHeader' style={{ height: heightPerRowInVH + "vh" }}>
+                <ListItem key={dateTime.format('hh-mm-A') + "list-item"} className='datetimeHeader' style={{ height: heightPerRowInVH + "vh" }}>
                     <ListItemText primary={dateTime.format('hh:mm A')} />
                 </ListItem> :
                 <ListItem key={dateTime.format('MM-DD-yyyy-hh-mm-A') + "-list-item"} className='datetimeItem' style={{ height: (rowSpan * heightPerRowInVH) + "vh" }}>
