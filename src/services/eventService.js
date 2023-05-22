@@ -45,7 +45,6 @@ export function saveEvent(event) {
     return axios.post(`${apiUrl}/events`, event);
 }
 
-export async function deleteEvent(event){
-    await axios.delete(`${apiUrl}/events/${event.id}`);
-    return event;
+export function deleteEvent(eventId){
+    return axios.delete(`${apiUrl}/events/${eventId}`);
 }

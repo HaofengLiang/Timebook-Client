@@ -2,9 +2,8 @@ import React, { Fragment, useEffect, useState } from "react";
 import WeekView from "./week/WeekView";
 import EventForm from "../event/EventForm";
 import { Modal, Box } from "@mui/material";
-import { saveEvent, getEvents  } from "../../reducers/eventsSlice";
+import { saveEvent, getEvents, deleteEvent } from "../../reducers/eventsSlice";
 import { useDispatch } from "react-redux";
-import { deleteEvent } from "../../services/eventService";
 import moment from "moment";
 
 const style = {
@@ -50,7 +49,7 @@ export default function Calendar() {
     }
 
     const eventDeleteHandler = async (event) => {
-        dispatch(deleteEvent(event));
+        dispatch(deleteEvent(event.id));
         setShowForm(false);
     }
 
