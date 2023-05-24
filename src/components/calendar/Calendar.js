@@ -1,9 +1,9 @@
 import React, { Fragment, useEffect, useState } from "react";
 import WeekView from "./week/WeekView";
 import EventForm from "../event/EventForm";
-import { Modal, Box } from "@mui/material";
+import { Modal, Box, CircularProgress, Backdrop } from "@mui/material";
 import { saveEvent, getEvents, deleteEvent } from "../../reducers/eventsSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
 const style = {
@@ -23,10 +23,11 @@ export default function Calendar() {
     const [selectedEvent, setSelectedEvent] = useState({});
     const dispatch = useDispatch();
     const today = moment();
+    const eventActionStatus = useSelector((state) => state.events.status);
 
     useEffect(() => {
         dispatch(getEvents(today));
-    },[dispatch, today])
+    },[])
 
     const selectNextWeekHandler = () => {
         const newDateTime = moment(selectedDateTime).add(1, 'week');
@@ -55,6 +56,10 @@ export default function Calendar() {
 
     return (
         <Fragment>
+            <Backdrop open={eventActionStatus === 'loading'}
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
             <Modal open={showForm} onClose={() => setShowForm(false)}>
                 <Box sx={style}>
                     <EventForm selectedEvent={selectedEvent} onSubmit={eventAddHandler} onDelete={eventDeleteHandler}/>
