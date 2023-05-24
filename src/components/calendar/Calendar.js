@@ -27,7 +27,7 @@ export default function Calendar() {
 
     useEffect(() => {
         dispatch(getEvents(today));
-    },[])
+    },[dispatch])
 
     const selectNextWeekHandler = () => {
         const newDateTime = moment(selectedDateTime).add(1, 'week');
