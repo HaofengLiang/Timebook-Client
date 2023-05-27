@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit";
 import { saveEvent as saveEventApi, deleteEvent as deleteEventApi, fetchEventsByWeek } from "../services/eventService";
 import moment from "moment";
 
@@ -27,6 +27,8 @@ export const deleteEvent = createAsyncThunk('events/deleteEvent', async(eventId)
     const response = await deleteEventApi(eventId);
     return response.data;
 })
+
+export const resetActionStatus = createAction('events/resetActionStatus')
 
 export const eventsSlice = createSlice({
     name: 'events',
@@ -70,6 +72,10 @@ export const eventsSlice = createSlice({
         .addCase(deleteEvent.rejected, (state, action) => {
           state.status = 'failed'
           state.error = action.error.message
+        })
+        .addCase(resetActionStatus, (state, action) => {
+          state.status = 'idle'
+          state.error = null
         })
       }
 })

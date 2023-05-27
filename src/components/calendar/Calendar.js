@@ -1,8 +1,8 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useCallback } from "react";
 import WeekView from "./week/WeekView";
 import EventForm from "../event/EventForm";
-import { Modal, Box, CircularProgress, Backdrop } from "@mui/material";
-import { saveEvent, getEvents, deleteEvent } from "../../reducers/eventsSlice";
+import { Modal, Box, CircularProgress, Backdrop, Snackbar, Alert } from "@mui/material";
+import { saveEvent, getEvents, deleteEvent, resetActionStatus } from "../../reducers/eventsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
@@ -22,12 +22,15 @@ export default function Calendar() {
     const [selectedDateTime, setSelectedDateTime] = useState(moment());
     const [selectedEvent, setSelectedEvent] = useState({});
     const dispatch = useDispatch();
-    const today = moment();
-    const eventActionStatus = useSelector((state) => state.events.status);
+    const today = useCallback(() => {
+         return moment();
+    },[]);
+
+    const {status: eventActionStatus, error: eventActionError} = useSelector((state) => state.events);
 
     useEffect(() => {
-        dispatch(getEvents(today));
-    },[dispatch])
+        dispatch(getEvents(today()));
+    },[dispatch, today])
 
     const selectNextWeekHandler = () => {
         const newDateTime = moment(selectedDateTime).add(1, 'week');
@@ -54,8 +57,16 @@ export default function Calendar() {
         setShowForm(false);
     }
 
+    const resetActionStatusHandler = () => {
+        dispatch(resetActionStatus());
+    }
+
     return (
         <Fragment>
+            <Snackbar open={eventActionStatus === 'failed'} autoHideDuration={6000} anchorOrigin={{vertical: 'top',
+            horizontal: 'right' }}>
+                <Alert onClose={resetActionStatusHandler} severity="error">{eventActionError}</Alert>
+            </Snackbar>
             <Backdrop open={eventActionStatus === 'loading'}
             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                 <CircularProgress color="inherit" />
