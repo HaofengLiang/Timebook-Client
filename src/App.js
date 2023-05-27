@@ -1,5 +1,6 @@
 import './App.css';
 import Calendar from './components/calendar/Calendar';
+import ErrorScreen from './components/error/ErrorScreen';
 import { Amplify } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import awsExports from './aws-exports';
@@ -7,7 +8,15 @@ import '@aws-amplify/ui-react/styles.css';
 import {
   AppBar, Container, Toolbar, Typography, Box, Button
 } from '@mui/material';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Calendar />,
+    errorElement: <ErrorScreen />,
+  },
+])
 function Header({ signOut, user }) {
   return (<AppBar position="static">
     <Container maxWidth="xl">
@@ -61,7 +70,7 @@ function App() {
         <div className="App">
           <Header signOut={signOut} user={user} />
           <div className="App-content">
-            <Calendar />
+            <RouterProvider router={router} />
           </div>
         </div>
       }
