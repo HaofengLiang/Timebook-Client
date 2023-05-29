@@ -1,0 +1,8 @@
+li.eventItem {
+    position: absolute;
+    z-index: 100;
+    background-color:aqua;
+    border: 1px solid;
+    border-color: black;
+    width: 90%;
+}
