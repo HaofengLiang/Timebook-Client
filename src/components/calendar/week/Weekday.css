@@ -4,7 +4,19 @@
 }
 
 .dayBody {
+    position: absolute;
+    top: 0;
     padding: 0;
+}
+
+.eventsList {
+    position: absolute;
+    top: 0;
+    z-index: 100;
+    height: 240vh;
+    background-color:aqua;
+    border: 1px solid;
+    border-color: black;
 }
 
 ul.dayBody {
