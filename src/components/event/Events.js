@@ -9,13 +9,11 @@ export default function Events({ day, onEventSelect }) {
     const events = useSelector((state) => state.events.value.filter(item => item.startDateTime.isSame(day, "day")));
 
     const positionMapping = events.map(event => {
-        const startDateTime = moment(event.startDateTime);
-        const endDateTime = moment(event.endDateTime);
-        const positionDiff = endDateTime.diff(startDateTime, 'minutes')/ 1440 * 240;
+        const positionDiff = moment(event.endDateTime).diff(moment(event.startDateTime), 'minutes')/ 1440 * 240;
         const startPosition = moment(event.startDateTime).diff(moment(event.startDateTime).startOf('day'), 'minutes')/ 1440 * 240;
 
         return (
-            <ListItem key={ event?.id  + "-list-item"} className='eventItem' style={{ height: positionDiff + "vh", top: startPosition + "vh" }}>
+            <ListItem key={ event.id  + "-list-item"} className='eventItem' style={{ height: positionDiff + "vh", top: startPosition + "vh" }}>
                 <ListItemButton onClick={() => onEventSelect(event)}>
                     <div className="event">
                         <div className="eventTitle">{event.title}</div>
@@ -27,9 +25,5 @@ export default function Events({ day, onEventSelect }) {
         )
     })
 
-    return(
-        <div>
-            {positionMapping}
-        </div>
-    )
+    return positionMapping;
 }

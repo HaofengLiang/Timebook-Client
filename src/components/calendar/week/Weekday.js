@@ -21,8 +21,6 @@ export default function WeekDay({ day, onEventSelect, isHeader }) {
             description:'',
             priority:0
         }; 
-        
-        let rowSpan = 1;
 
         listItems.push(
             isHeader ?
@@ -35,7 +33,7 @@ export default function WeekDay({ day, onEventSelect, isHeader }) {
                 </ListItem >
         );
 
-        i += rowSpan;
+        i += 1;
     };
 
     return (
