@@ -21,6 +21,8 @@ export default function WeekDay({ day, onEventSelect, isHeader }) {
             description:'',
             priority:0
         }; 
+        
+        let rowSpan = 1;
 
         listItems.push(
             isHeader ?
@@ -32,6 +34,8 @@ export default function WeekDay({ day, onEventSelect, isHeader }) {
                     <ListItemButton onClick={() => onEventSelect(newEvent)} className="datetimeButton"></ListItemButton>
                 </ListItem >
         );
+
+        i += rowSpan;
     };
 
     return (
