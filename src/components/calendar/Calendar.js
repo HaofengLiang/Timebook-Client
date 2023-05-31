@@ -22,15 +22,12 @@ export default function Calendar() {
     const [selectedDateTime, setSelectedDateTime] = useState(moment());
     const [selectedEvent, setSelectedEvent] = useState({});
     const dispatch = useDispatch();
-    const today = useCallback(() => {
-         return moment();
-    },[]);
 
-    const {status: eventActionStatus, error: eventActionError} = useSelector((state) => state.events);
+    const { status: eventActionStatus, error: eventActionError } = useSelector((state) => state.events);
 
     useEffect(() => {
-        dispatch(getEvents(today()));
-    },[dispatch, today])
+        dispatch(getEvents(selectedDateTime));
+    }, [dispatch, selectedDateTime])
 
     const selectNextWeekHandler = () => {
         const newDateTime = moment(selectedDateTime).add(1, 'week');
@@ -63,17 +60,19 @@ export default function Calendar() {
 
     return (
         <Fragment>
-            <Snackbar open={eventActionStatus === 'failed'} autoHideDuration={6000} anchorOrigin={{vertical: 'top',
-            horizontal: 'right' }}>
+            <Snackbar open={eventActionStatus === 'failed'} autoHideDuration={6000} anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right'
+            }}>
                 <Alert onClose={resetActionStatusHandler} severity="error">{eventActionError}</Alert>
             </Snackbar>
             <Backdrop open={eventActionStatus === 'loading'}
-            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                 <CircularProgress color="inherit" />
             </Backdrop>
             <Modal open={showForm} onClose={() => setShowForm(false)}>
                 <Box sx={style}>
-                    <EventForm selectedEvent={selectedEvent} onSubmit={eventAddHandler} onDelete={eventDeleteHandler}/>
+                    <EventForm selectedEvent={selectedEvent} onSubmit={eventAddHandler} onDelete={eventDeleteHandler} />
                 </Box>
             </Modal>
             <WeekView
