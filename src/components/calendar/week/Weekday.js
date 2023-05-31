@@ -37,12 +37,10 @@ export default function WeekDay({ day, onEventSelect, isHeader }) {
     };
 
     return (
-        <div>
             <List className="dayBody">
                 {listItems}
-                <Events day={day} onEventSelect={onEventSelect}/>
+                {!isHeader && <Events day={day} onEventSelect={onEventSelect}/>}
             </List>
-        </div>
     );
 
 };
