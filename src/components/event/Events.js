@@ -8,7 +8,7 @@ import "./Events.css";
 export default function Events({ day, onEventSelect }) {    
     const events = useSelector((state) => state.events.value.filter(item => item.startDateTime.isSame(day, "day")));
 
-    const positionMapping = events.map(event => {
+    const eventItems = events.map(event => {
         const positionDiff = moment(event.endDateTime).diff(moment(event.startDateTime), 'minutes')/ 1440 * 240;
         const startPosition = moment(event.startDateTime).diff(moment(event.startDateTime).startOf('day'), 'minutes')/ 1440 * 240;
 
@@ -25,5 +25,5 @@ export default function Events({ day, onEventSelect }) {
         )
     })
 
-    return positionMapping;
+    return eventItems;
 }
