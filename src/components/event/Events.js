@@ -13,7 +13,7 @@ export default function Events({ day, onEventSelect }) {
         const startPosition = moment(event.startDateTime).diff(moment(event.startDateTime).startOf('day'), 'minutes')/ 1440 * 240;
 
         return (
-            <ListItem key={ event.id  + "-list-item"} className='eventItem' style={{ height: positionDiff + "vh", top: startPosition + "vh" }}>
+            <ListItem key={ event?.id  + "-list-item"} className='eventItem' style={{ height: positionDiff + "vh", top: startPosition + "vh" }}>
                 <ListItemButton onClick={() => onEventSelect(event)}>
                     <div className="event">
                         <div className="eventTitle">{event.title}</div>
