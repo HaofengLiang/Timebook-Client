@@ -1,15 +1,15 @@
-import "./Weekday.css";
-import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
-import { useSelector } from "react-redux";
-import moment from "moment";
+import './Weekday.css';
+import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 function Event({ event }) {
   return (
     <div className="event">
       <div className="eventTitle">{event.title}</div>
       <div className="eventTime">
-        {event.startDateTime.format("hh:mm A")} -{" "}
-        {event.endDateTime.format("hh:mm A")}
+        {event.startDateTime.format('hh:mm A')} -{' '}
+        {event.endDateTime.format('hh:mm A')}
       </div>
       <div className="eventDescription">{event.description}</div>
     </div>
@@ -18,25 +18,26 @@ function Event({ event }) {
 
 export default function WeekDay({ day, onEventSelect, isHeader }) {
   const events = useSelector((state) =>
-    state.events.value.filter((item) => item.startDateTime.isSame(day, "day"))
+    state.events.value.filter((item) => item.startDateTime.isSame(day, 'day'))
   );
   const heightPerRowInVH = 5;
   const hrs = 24;
   const minsPerSection = 30;
   const numOfSections = hrs * (60 / minsPerSection);
+  ß;
   let i = 0;
   const listItems = [];
 
   while (i < numOfSections) {
     const dateTime = moment(day)
-      .startOf("day")
-      .add(i * minsPerSection, "minutes");
+      .startOf('day')
+      .add(i * minsPerSection, 'minutes');
 
     const newEvent = {
-      title: "",
+      title: '',
       startDateTime: dateTime,
-      endDateTime: moment(dateTime).add(minsPerSection, "minutes"),
-      description: "",
+      endDateTime: moment(dateTime).add(minsPerSection, 'minutes'),
+      description: '',
       priority: 0,
     };
 
@@ -45,7 +46,7 @@ export default function WeekDay({ day, onEventSelect, isHeader }) {
         event.startDateTime.isSame(dateTime) ||
         event.startDateTime.isBetween(
           dateTime,
-          moment(dateTime).add(minsPerSection, "minutes")
+          moment(dateTime).add(minsPerSection, 'minutes')
         )
     );
 
@@ -53,24 +54,24 @@ export default function WeekDay({ day, onEventSelect, isHeader }) {
     if (event) {
       const startDateTime = moment(event.startDateTime);
       const endDateTime = moment(event.endDateTime);
-      const minsDiff = endDateTime.diff(startDateTime, "minutes");
+      const minsDiff = endDateTime.diff(startDateTime, 'minutes');
       rowSpan = minsDiff === 0 ? 1 : Math.ceil(minsDiff / minsPerSection);
     }
 
     listItems.push(
       isHeader ? (
         <ListItem
-          key={dateTime.format("hh-mm-A") + "list-item"}
+          key={dateTime.format('hh-mm-A') + 'list-item'}
           className="datetimeHeader"
-          style={{ height: heightPerRowInVH + "vh" }}
+          style={{ height: heightPerRowInVH + 'vh' }}
         >
-          <ListItemText primary={dateTime.format("hh:mm A")} />
+          <ListItemText primary={dateTime.format('hh:mm A')} />
         </ListItem>
       ) : (
         <ListItem
-          key={dateTime.format("MM-DD-yyyy-hh-mm-A") + "-list-item"}
+          key={dateTime.format('MM-DD-yyyy-hh-mm-A') + '-list-item'}
           className="datetimeItem"
-          style={{ height: rowSpan * heightPerRowInVH + "vh" }}
+          style={{ height: rowSpan * heightPerRowInVH + 'vh' }}
         >
           <ListItemButton
             onClick={() => onEventSelect(event || newEvent)}
