@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import {
-  AppBar,
   Container,
   Toolbar,
   Typography,
@@ -8,6 +7,7 @@ import {
   Button,
   IconButton,
 } from '@mui/material';
+import MuiAppBar from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import Sidebar from './Sidebar';
 import { styled } from '@mui/material/styles';
@@ -23,6 +23,23 @@ export const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  transition: theme.transitions.create(['margin', 'width'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
+
 export default function Header({ signOut, user }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const handleDrawerOpen = () => {
@@ -33,7 +50,7 @@ export default function Header({ signOut, user }) {
   };
   return (
     <>
-      <AppBar position="relative">
+      <AppBar position="fixed" open={drawerOpen}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <IconButton

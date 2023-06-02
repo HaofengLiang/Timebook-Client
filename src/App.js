@@ -53,7 +53,9 @@ function App() {
     <Authenticator>
       {({ signOut, user }) => (
         <div className="App">
-          <Header signOut={signOut} user={user} />
+          <HeaderWrapper>
+            <Header signOut={signOut} user={user} />
+          </HeaderWrapper>
           <div className="App-content">
             <DrawerHeader />
             <RouterProvider router={router} />
