@@ -24,7 +24,6 @@ export default function WeekDay({ day, onEventSelect, isHeader }) {
   const hrs = 24;
   const minsPerSection = 30;
   const numOfSections = hrs * (60 / minsPerSection);
-  ß;
   let i = 0;
   const listItems = [];
 
