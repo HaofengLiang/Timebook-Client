@@ -1,0 +1,14 @@
+li.eventItem {
+    position: absolute;
+    z-index: 100;
+    background-color:#89b6e5;
+    border: 1px solid;
+    border-color: black;
+    width: 90%;
+    border-radius: 10px;
+}
+
+.event {
+    overflow: hidden;
+    white-space: nowrap;
+}
