@@ -50,7 +50,7 @@ export default function WeekView({
         <Table stickyHeader aria-label="sticky table">
           <colgroup>
             <col width="6%" />
-            <col span={days.length.toString()} width="13%" />
+            <col span={days.length} width="13%" />
           </colgroup>
           <TableHead>
             <TableRow>
