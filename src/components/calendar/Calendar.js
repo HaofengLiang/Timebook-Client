@@ -29,7 +29,7 @@ const style = {
   p: 4,
 };
 
-export default function Calendar() {
+const MemoizedCalendar = React.memo(function Calendar() {
   const [showForm, setShowForm] = useState(false);
   const [selectedDateTime, setSelectedDateTime] = useState(moment());
   const [selectedEvent, setSelectedEvent] = useState({});
@@ -112,4 +112,6 @@ export default function Calendar() {
       />
     </Fragment>
   );
-}
+});
+
+export default MemoizedCalendar;

@@ -1,4 +1,4 @@
-import { List, ListItem, ListItemText, styled, useTheme } from '@mui/material';
+import { List, ListItem, ListItemText, styled } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -7,11 +7,12 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-//import {IconButton, ChevronLeftIcon, ChevronRightIcon, ListItemButton, ListItemIcon, HomeIcon, PeopleIcon, AccountCircleIcon} from '@mui/icons-material';
 
-export default function Sidebar({ handleDrawerClose, drawerOpen }) {
-  const drawerWidth = 220;
-  const theme = useTheme();
+export default function Sidebar({
+  handleDrawerClose,
+  drawerOpen,
+  drawerWidth,
+}) {
   const drawerList = ['Home', 'Profile', 'Subscriptions'];
   const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -23,7 +24,6 @@ export default function Sidebar({ handleDrawerClose, drawerOpen }) {
   return (
     <Drawer
       sx={{
-        width: drawerWidth,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
           width: drawerWidth,
