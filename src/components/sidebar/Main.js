@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
+import './Main.css';
 import {
   Container,
   Toolbar,
@@ -11,9 +12,19 @@ import MuiAppBar from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import Sidebar from './Sidebar';
 import { styled } from '@mui/material/styles';
-import { RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import MemoizedCalendar from '../calendar/Calendar';
+import ErrorScreen from '../error/ErrorScreen';
 
-export default function Header({ signOut, user, router }) {
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <MemoizedCalendar />,
+    errorElement: <ErrorScreen />,
+  },
+]);
+
+export default function Main({ signOut, user }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
