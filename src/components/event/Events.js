@@ -103,7 +103,10 @@ export default function Events({ day, onEventSelect }) {
             top: startPosition + 'vh',
           }}
         >
-          <ListItemButton onClick={() => onEventSelect(event)}>
+          <ListItemButton
+            className="eventButton"
+            onClick={() => onEventSelect(event)}
+          >
             <div className="event">
               <div className="eventTitle">{event.title}</div>
             </div>

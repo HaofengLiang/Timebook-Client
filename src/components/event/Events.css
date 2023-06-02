@@ -7,6 +7,10 @@ li.eventItem {
   border-radius: 10px;
 }
 
+.eventButton {
+  height: 100%;
+}
+
 .event {
   overflow: hidden;
   white-space: nowrap;
