@@ -44,7 +44,7 @@ export default function Sidebar({ handleDrawerClose, drawerOpen }) {
             <List>
                 {drawerList.map((item) => (
                     <ListItem key={item} disablePadding>
-                        <ListItemButton>
+                        <ListItemButton onClick={handleDrawerClose}>
                             <ListItemIcon>
                                 {
                                     (() => {
