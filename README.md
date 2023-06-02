@@ -1,5 +1,10 @@
 # Timebook-Client
+
 This Client application is designed with server implmented in https://github.com/Lin1404/Timebook.
+
+# Setup Cognito as the Auth service
+
+https://docs.aws.amazon.com/prescriptive-guidance/latest/patterns/authenticate-react-application-users-by-using-amazon-cognito-and-aws-amplify.html
 
 # Getting Started with Create React App
 
