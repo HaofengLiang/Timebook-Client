@@ -21,16 +21,15 @@ const router = createBrowserRouter([
     errorElement: <ErrorScreen />,
   },
 ])
+
 function Header({ signOut, user }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
   };
-
   const handleDrawerClose = () => {
     setDrawerOpen(false);
   };
-
   return (<><AppBar position="static">
     <Container maxWidth="xl">
       <Toolbar disableGutters>
@@ -72,7 +71,8 @@ function Header({ signOut, user }) {
       </Toolbar>
     </Container>
   </AppBar>
-    <Sidebar handleDrawerClose={handleDrawerClose} drawerOpen={drawerOpen} /></>
+    <Sidebar handleDrawerClose={handleDrawerClose} drawerOpen={drawerOpen} />
+  </>
   );
 }
 
