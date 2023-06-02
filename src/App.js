@@ -1,23 +1,14 @@
 import './App.css';
 import Calendar from './components/calendar/Calendar';
 import ErrorScreen from './components/error/ErrorScreen';
+import Header from './components/sidebar/Header';
+import { DrawerHeader } from './components/sidebar/Header';
 import { Amplify } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import awsExports from './aws-exports';
 import '@aws-amplify/ui-react/styles.css';
-import { useState } from 'react';
-import {
-  AppBar,
-  Container,
-  Toolbar,
-  Typography,
-  Box,
-  Button,
-  IconButton,
-} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import Sidebar from './components/sidebar/Sidebar';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
 
 const router = createBrowserRouter([
   {
@@ -27,59 +18,26 @@ const router = createBrowserRouter([
   },
 ]);
 
-function Header({ signOut, user }) {
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const handleDrawerOpen = () => {
-    setDrawerOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setDrawerOpen(false);
-  };
-  return (
-    <>
-      <AppBar position="static">
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <IconButton
-              color="inherrit"
-              onClick={handleDrawerOpen}
-              aria-label="open drawer"
-              edge="start"
-              sx={{ mr: 2, ...(drawerOpen && { display: 'none' }) }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              href=""
-              sx={{
-                mr: 2,
-                display: { xs: 'flex' },
-                flexGrow: 1,
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-            >
-              {user && user.attributes.email}
-            </Typography>
+const drawerWidth = 240;
 
-            <Box sx={{ flexGrow: 0 }}>
-              <Button variant="contained" color="secondary" onClick={signOut}>
-                Sign Out
-              </Button>
-            </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
-      <Sidebar handleDrawerClose={handleDrawerClose} drawerOpen={drawerOpen} />
-    </>
-  );
-}
+const HeaderWrapper = styled('main', {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(3),
+  transition: theme.transitions.create('margin', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  marginLeft: `-${drawerWidth}px`,
+  ...(open && {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  }),
+}));
 
 function App() {
   // Configure Amplify in index file or root file
@@ -97,6 +55,7 @@ function App() {
         <div className="App">
           <Header signOut={signOut} user={user} />
           <div className="App-content">
+            <DrawerHeader />
             <RouterProvider router={router} />
           </div>
         </div>

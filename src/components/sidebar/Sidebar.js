@@ -1,15 +1,7 @@
-import {
-  List,
-  ListItem,
-  ListItemText,
-  Box,
-  styled,
-  useTheme,
-} from '@mui/material';
+import { List, ListItem, ListItemText, styled, useTheme } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import HomeIcon from '@mui/icons-material/Home';
@@ -44,11 +36,7 @@ export default function Sidebar({ handleDrawerClose, drawerOpen }) {
     >
       <DrawerHeader>
         <IconButton onClick={handleDrawerClose}>
-          {theme.direction === 'ltr' ? (
-            <ChevronLeftIcon />
-          ) : (
-            <ChevronRightIcon />
-          )}
+          <ChevronLeftIcon />
         </IconButton>
       </DrawerHeader>
       <List>
