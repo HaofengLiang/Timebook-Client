@@ -1,22 +1,23 @@
-import "./App.css";
-import { useState } from "react";
-import Calendar from "./components/calendar/Calendar";
-import ErrorScreen from "./components/error/ErrorScreen";
-import Header from "./components/sidebar/Header";
-import { Amplify } from "aws-amplify";
-import { Authenticator } from "@aws-amplify/ui-react";
-import awsExports from "./aws-exports";
-import "@aws-amplify/ui-react/styles.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import './App.css';
+import { useState } from 'react';
+import Calendar from './components/calendar/Calendar';
+import ErrorScreen from './components/error/ErrorScreen';
+import Header from './components/sidebar/Header';
+import { Amplify } from 'aws-amplify';
+import { Authenticator } from '@aws-amplify/ui-react';
+import awsExports from './aws-exports';
+import '@aws-amplify/ui-react/styles.css';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import {
   drawerWidth,
   Main,
   AppBar,
   DrawerHeader,
-} from "./components/sidebar/MuiComponents";
+} from './components/sidebar/MuiComponents';
+
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Calendar />,
     errorElement: <ErrorScreen />,
   },

@@ -1,0 +1,17 @@
+li.eventItem {
+  position: absolute;
+  z-index: 100;
+  background-color: #89b6e5;
+  border: 1px solid;
+  border-color: black;
+  border-radius: 10px;
+}
+
+.eventButton {
+  height: 100%;
+}
+
+.event {
+  overflow: hidden;
+  white-space: nowrap;
+}
