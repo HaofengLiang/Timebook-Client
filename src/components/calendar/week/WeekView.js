@@ -48,6 +48,10 @@ export default function WeekView({
       </div>
       <TableContainer sx={{ height: '85vh' }}>
         <Table stickyHeader aria-label="sticky table">
+          <colgroup>
+            <col width="6%" />
+            <col span={days.length} width="13%" />
+          </colgroup>
           <TableHead>
             <TableRow>
               <TableCell key="day-header" className="tableCell"></TableCell>
