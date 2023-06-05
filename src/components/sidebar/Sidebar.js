@@ -1,29 +1,29 @@
-import { List, ListItem, ListItemText } from "@mui/material";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import HomeIcon from "@mui/icons-material/Home";
-import PeopleIcon from "@mui/icons-material/People";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { DrawerHeader } from "./MuiComponents";
+import { List, ListItem, ListItemText } from '@mui/material';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import HomeIcon from '@mui/icons-material/Home';
+import PeopleIcon from '@mui/icons-material/People';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { DrawerHeader } from './MuiComponents';
 
 export default function Sidebar({
   handleDrawerClose,
   drawerOpen,
   drawerWidth,
 }) {
-  const drawerList = ["Home", "Profile", "Subscriptions"];
+  const drawerList = ['Home', 'Profile', 'Subscriptions'];
 
   return (
     <Drawer
       sx={{
         width: drawerWidth,
         flexShrink: 0,
-        "& .MuiDrawer-paper": {
+        '& .MuiDrawer-paper': {
           width: drawerWidth,
-          boxSizing: "border-box",
+          boxSizing: 'border-box',
         },
       }}
       variant="persistent"
@@ -42,11 +42,11 @@ export default function Sidebar({
               <ListItemIcon>
                 {(() => {
                   switch (item) {
-                    case "Home":
+                    case 'Home':
                       return <HomeIcon />;
-                    case "Subscriptions":
+                    case 'Subscriptions':
                       return <PeopleIcon />;
-                    case "Profile":
+                    case 'Profile':
                       return <AccountCircleIcon />;
                     default:
                       return null;

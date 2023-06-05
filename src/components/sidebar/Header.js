@@ -5,9 +5,9 @@ import {
   Box,
   Button,
   IconButton,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import Sidebar from "./Sidebar";
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import Sidebar from './Sidebar';
 
 export default function Header({
   signOut,
@@ -21,14 +21,14 @@ export default function Header({
   return (
     <>
       <AppBar position="fixed" open={drawerOpen}>
-        <Container maxWidth="xl">
+        <Container maxWidth={false}>
           <Toolbar disableGutters>
             <IconButton
               color="inherrit"
               onClick={handleDrawerOpen}
               aria-label="open drawer"
               edge="start"
-              sx={{ mr: 2, ...(drawerOpen && { display: "none" }) }}
+              sx={{ mr: 2, ...(drawerOpen && { display: 'none' }) }}
             >
               <MenuIcon />
             </IconButton>
@@ -39,13 +39,13 @@ export default function Header({
               href=""
               sx={{
                 mr: 2,
-                display: { xs: "flex" },
+                display: { xs: 'flex' },
                 flexGrow: 1,
-                fontFamily: "monospace",
+                fontFamily: 'monospace',
                 fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none',
               }}
             >
               {user && user.attributes.email}
