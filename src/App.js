@@ -1,19 +1,19 @@
 import './App.css';
+import { useState } from 'react';
 import Calendar from './components/calendar/Calendar';
 import ErrorScreen from './components/error/ErrorScreen';
+import Header from './components/sidebar/Header';
 import { Amplify } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import awsExports from './aws-exports';
 import '@aws-amplify/ui-react/styles.css';
-import {
-  AppBar,
-  Container,
-  Toolbar,
-  Typography,
-  Box,
-  Button,
-} from '@mui/material';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {
+  drawerWidth,
+  Main,
+  AppBar,
+  DrawerHeader,
+} from './components/sidebar/MuiComponents';
 
 const router = createBrowserRouter([
   {
@@ -22,40 +22,6 @@ const router = createBrowserRouter([
     errorElement: <ErrorScreen />,
   },
 ]);
-function Header({ signOut, user }) {
-  return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: 'flex' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            {user && user.attributes.email}
-          </Typography>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Button variant="contained" color="secondary" onClick={signOut}>
-              Sign Out
-            </Button>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
-  );
-}
 
 function App() {
   // Configure Amplify in index file or root file
@@ -67,13 +33,32 @@ function App() {
     },
   });
 
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const handleDrawerOpen = () => {
+    setDrawerOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
+
   return (
     <Authenticator>
       {({ signOut, user }) => (
         <div className="App">
-          <Header signOut={signOut} user={user} />
+          <Header
+            signOut={signOut}
+            user={user}
+            drawerWidth={drawerWidth}
+            AppBar={AppBar}
+            handleDrawerOpen={handleDrawerOpen}
+            handleDrawerClose={handleDrawerClose}
+            drawerOpen={drawerOpen}
+          />
           <div className="App-content">
-            <RouterProvider router={router} />
+            <Main open={drawerOpen}>
+              <DrawerHeader />
+              <RouterProvider router={router} />
+            </Main>
           </div>
         </div>
       )}
