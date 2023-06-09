@@ -8,6 +8,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { DrawerHeader } from './MuiComponents';
+import { default as Collapse } from './CollapseComponet';
 
 export default function Sidebar({
   handleDrawerClose,
@@ -15,6 +16,21 @@ export default function Sidebar({
   drawerWidth,
 }) {
   const drawerList = ['Home', 'Profile', 'Subscriptions'];
+
+  const collapses = {
+    'My calendars': {
+      checkboxes: ['Birthdays', 'Reminders', 'Tasks'],
+      services: {},
+    },
+    'Other calendars': {
+      checkboxes: ['Holidays in United States'],
+      services: {
+        subscribe: 'Subscribe to calendar',
+        create: 'Create new calendar',
+        browse: 'Browse calendars of interest',
+      },
+    },
+  };
 
   return (
     <Drawer
@@ -35,7 +51,7 @@ export default function Sidebar({
           <ChevronLeftIcon />
         </IconButton>
       </DrawerHeader>
-      <List>
+      <List component="div" disablePadding>
         {drawerList.map((item) => (
           <ListItem key={item} disablePadding>
             <ListItemButton onClick={handleDrawerClose}>
@@ -57,6 +73,16 @@ export default function Sidebar({
             </ListItemButton>
           </ListItem>
         ))}
+        {Object.keys(collapses).map((collapse) => {
+          return (
+            <Collapse
+              key={'collapse-' + collapse}
+              collapseHeader={collapse}
+              collapseItems={collapses[collapse].checkboxes}
+              services={collapses[collapse].services}
+            />
+          );
+        })}
       </List>
     </Drawer>
   );
