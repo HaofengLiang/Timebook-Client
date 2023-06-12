@@ -17,7 +17,7 @@ export default function Sidebar({
 }) {
   const drawerList = ['Home', 'Profile', 'Subscriptions'];
 
-  const collapses = {
+  const collapseLists = {
     'My calendars': {
       checkboxes: ['Birthdays', 'Reminders', 'Tasks'],
       services: {},
@@ -25,9 +25,24 @@ export default function Sidebar({
     'Other calendars': {
       checkboxes: ['Holidays in United States'],
       services: {
-        subscribe: 'Subscribe to calendar',
-        create: 'Create new calendar',
-        browse: 'Browse calendars of interest',
+        subscribe: {
+          text: 'Subscribe to calendar',
+          action: () => {
+            console.log('Subscribe to calendar');
+          },
+        },
+        create: {
+          text: 'Create new calendar',
+          action: () => {
+            console.log('Create new calendar');
+          },
+        },
+        browse: {
+          text: 'Browse calendars of interest',
+          action: () => {
+            console.log('Browse calendars of interest');
+          },
+        },
       },
     },
   };
@@ -51,7 +66,7 @@ export default function Sidebar({
           <ChevronLeftIcon />
         </IconButton>
       </DrawerHeader>
-      <List component="div" disablePadding>
+      <List disablePadding>
         {drawerList.map((item) => (
           <ListItem key={item} disablePadding>
             <ListItemButton onClick={handleDrawerClose}>
@@ -73,13 +88,13 @@ export default function Sidebar({
             </ListItemButton>
           </ListItem>
         ))}
-        {Object.keys(collapses).map((collapse) => {
+        {Object.keys(collapseLists).map((list) => {
           return (
             <Collapse
-              key={'collapse-' + collapse}
-              collapseHeader={collapse}
-              collapseItems={collapses[collapse].checkboxes}
-              services={collapses[collapse].services}
+              key={'collapse-' + list}
+              collapseHeader={list}
+              collapseItems={collapseLists[list].checkboxes}
+              services={collapseLists[list].services}
             />
           );
         })}

@@ -26,9 +26,7 @@ export default function CollapseComponet({
     <>
       <ListItemButton onClick={handleCollapse}>
         <ListItemText primary={collapseHeader} />
-        {Object.keys(services).length === 0 ? null : (
-          <Popover services={services} />
-        )}
+        {Object.keys(services).length > 0 && <Popover services={services} />}
         {collapseOpen ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={collapseOpen} timeout="auto" unmountOnExit>

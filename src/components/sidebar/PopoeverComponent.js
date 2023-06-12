@@ -12,27 +12,11 @@ export default function PopoverComponent({ services }) {
     setPopovereOpen(e.target);
   };
 
-  const handlePopoever = (e) => {
+  const handlePopover = (e) => {
     e.stopPropagation();
     setPopovereOpen(null);
   };
 
-  const handleService = (service, e) => {
-    e.stopPropagation();
-    switch (service) {
-      case 'Subscribe to calendar':
-        console.log('called subscribe');
-        break;
-      case 'Create new calendar':
-        console.log('called create');
-        break;
-      case 'Browse calendars of interest':
-        console.log('called browse');
-        break;
-      default:
-        break;
-    }
-  };
   return (
     <>
       <AddIcon className="addIcon" onClick={addIconOnclick} />
@@ -40,7 +24,7 @@ export default function PopoverComponent({ services }) {
         id="addIcon-popover"
         open={!!popoverOpen}
         anchorEl={popoverOpen}
-        onClose={handlePopoever}
+        onClose={handlePopover}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'left',
@@ -49,12 +33,15 @@ export default function PopoverComponent({ services }) {
         {Object.values(services).map((service) => {
           return (
             <ListItemButton
-              key={'serviceItem-' + service}
-              onClick={handleService.bind(this, service)}
+              key={'serviceItem-' + service.text}
+              onClick={(e) => {
+                e.stopPropagation();
+                service.action();
+              }}
             >
               <ListItemText
-                key={'serviceItemText-' + service}
-                primary={service}
+                key={'serviceItemText-' + service.text}
+                primary={service.text}
               />
             </ListItemButton>
           );
