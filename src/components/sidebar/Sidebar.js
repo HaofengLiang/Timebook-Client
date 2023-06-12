@@ -8,6 +8,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { DrawerHeader } from './MuiComponents';
+import { default as Collapse } from './CollapseComponet';
 
 export default function Sidebar({
   handleDrawerClose,
@@ -15,6 +16,36 @@ export default function Sidebar({
   drawerWidth,
 }) {
   const drawerList = ['Home', 'Profile', 'Subscriptions'];
+
+  const collapseLists = {
+    'My calendars': {
+      checkboxes: ['Birthdays', 'Reminders', 'Tasks'],
+      services: {},
+    },
+    'Other calendars': {
+      checkboxes: ['Holidays in United States'],
+      services: {
+        subscribe: {
+          text: 'Subscribe to calendar',
+          action: () => {
+            console.log('Subscribe to calendar');
+          },
+        },
+        create: {
+          text: 'Create new calendar',
+          action: () => {
+            console.log('Create new calendar');
+          },
+        },
+        browse: {
+          text: 'Browse calendars of interest',
+          action: () => {
+            console.log('Browse calendars of interest');
+          },
+        },
+      },
+    },
+  };
 
   return (
     <Drawer
@@ -35,7 +66,7 @@ export default function Sidebar({
           <ChevronLeftIcon />
         </IconButton>
       </DrawerHeader>
-      <List>
+      <List disablePadding>
         {drawerList.map((item) => (
           <ListItem key={item} disablePadding>
             <ListItemButton onClick={handleDrawerClose}>
@@ -57,6 +88,16 @@ export default function Sidebar({
             </ListItemButton>
           </ListItem>
         ))}
+        {Object.keys(collapseLists).map((list) => {
+          return (
+            <Collapse
+              key={'collapse-' + list}
+              collapseHeader={list}
+              collapseItems={collapseLists[list].checkboxes}
+              services={collapseLists[list].services}
+            />
+          );
+        })}
       </List>
     </Drawer>
   );
