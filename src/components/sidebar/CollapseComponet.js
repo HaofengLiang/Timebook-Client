@@ -14,7 +14,7 @@ import { useState } from 'react';
 export default function CollapseComponet({
   collapseHeader,
   collapseItems,
-  services,
+  services = {},
 }) {
   const [collapseOpen, setCollapseOpen] = useState(false);
 
