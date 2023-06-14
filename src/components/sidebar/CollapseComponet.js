@@ -9,7 +9,7 @@ import {
 import { default as Popover } from './PopoeverComponent';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 
 export default function CollapseComponet({
   collapseHeader,
@@ -23,7 +23,7 @@ export default function CollapseComponet({
   };
 
   return (
-    <>
+    <Fragment>
       <ListItemButton onClick={handleCollapse}>
         <ListItemText primary={collapseHeader} />
         {Object.keys(services).length > 0 && <Popover services={services} />}
@@ -41,6 +41,6 @@ export default function CollapseComponet({
           })}
         </List>
       </Collapse>
-    </>
+    </Fragment>
   );
 }

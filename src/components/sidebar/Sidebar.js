@@ -1,4 +1,4 @@
-import { List, ListItem, ListItemText } from '@mui/material';
+import { List, ListItem, ListItemText, Box, Modal } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -9,6 +9,19 @@ import PeopleIcon from '@mui/icons-material/People';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { DrawerHeader } from './MuiComponents';
 import { default as Collapse } from './CollapseComponet';
+import { useState } from 'react';
+import ServiceForm from './ServiceForm';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 500,
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+};
 
 export default function Sidebar({
   handleDrawerClose,
@@ -16,6 +29,7 @@ export default function Sidebar({
   drawerWidth,
 }) {
   const drawerList = ['Home', 'Profile', 'Subscriptions'];
+  const [serviceFormOpen, setServiceFormOpen] = useState(false);
 
   const collapseLists = {
     'My calendars': {
@@ -29,6 +43,7 @@ export default function Sidebar({
           text: 'Subscribe to calendar',
           action: () => {
             console.log('Subscribe to calendar');
+            setServiceFormOpen(true);
           },
         },
         create: {
@@ -48,57 +63,64 @@ export default function Sidebar({
   };
 
   return (
-    <Drawer
-      sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        '& .MuiDrawer-paper': {
+    <>
+      <Drawer
+        sx={{
           width: drawerWidth,
-          boxSizing: 'border-box',
-        },
-      }}
-      variant="persistent"
-      anchor="left"
-      open={drawerOpen}
-    >
-      <DrawerHeader>
-        <IconButton onClick={handleDrawerClose}>
-          <ChevronLeftIcon />
-        </IconButton>
-      </DrawerHeader>
-      <List disablePadding>
-        {drawerList.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton onClick={handleDrawerClose}>
-              <ListItemIcon>
-                {(() => {
-                  switch (item) {
-                    case 'Home':
-                      return <HomeIcon />;
-                    case 'Subscriptions':
-                      return <PeopleIcon />;
-                    case 'Profile':
-                      return <AccountCircleIcon />;
-                    default:
-                      return null;
-                  }
-                })()}
-              </ListItemIcon>
-              <ListItemText primary={item} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-        {Object.keys(collapseLists).map((list) => {
-          return (
-            <Collapse
-              key={'collapse-' + list}
-              collapseHeader={list}
-              collapseItems={collapseLists[list].checkboxes}
-              services={collapseLists[list].services}
-            />
-          );
-        })}
-      </List>
-    </Drawer>
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+        variant="persistent"
+        anchor="left"
+        open={drawerOpen}
+      >
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </DrawerHeader>
+        <List disablePadding>
+          {drawerList.map((item) => (
+            <ListItem key={item} disablePadding>
+              <ListItemButton onClick={handleDrawerClose}>
+                <ListItemIcon>
+                  {(() => {
+                    switch (item) {
+                      case 'Home':
+                        return <HomeIcon />;
+                      case 'Subscriptions':
+                        return <PeopleIcon />;
+                      case 'Profile':
+                        return <AccountCircleIcon />;
+                      default:
+                        return null;
+                    }
+                  })()}
+                </ListItemIcon>
+                <ListItemText primary={item} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+          {Object.keys(collapseLists).map((list) => {
+            return (
+              <Collapse
+                key={'collapse-' + list}
+                collapseHeader={list}
+                collapseItems={collapseLists[list].checkboxes}
+                services={collapseLists[list].services}
+              />
+            );
+          })}
+        </List>
+      </Drawer>
+      <Modal open={serviceFormOpen} onClose={() => setServiceFormOpen(false)}>
+        <Box sx={style}>
+          <ServiceForm />
+        </Box>
+      </Modal>
+    </>
   );
 }

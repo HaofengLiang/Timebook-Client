@@ -3,6 +3,8 @@ import {
   saveEvent as saveEventApi,
   deleteEvent as deleteEventApi,
   fetchEventsByWeek,
+  addCalendar as addCalendarApi,
+  deleteCalendar as deleteCalendarApi,
 } from '../services/eventService';
 import moment from 'moment';
 
@@ -38,6 +40,21 @@ export const deleteEvent = createAsyncThunk(
   }
 );
 
+export const addCalendar = createAsyncThunk(
+  'events/addCalendar',
+  async (email) => {
+    const response = await addCalendarApi(email);
+    return response.data;
+  }
+);
+
+export const deleteCalendar = createAsyncThunk(
+  'events/deleteCalendar',
+  async (email) => {
+    const response = await deleteCalendarApi(email);
+    return response.data;
+  }
+);
 export const resetActionStatus = createAction('events/resetActionStatus');
 
 export const eventsSlice = createSlice({
@@ -89,6 +106,28 @@ export const eventsSlice = createSlice({
       .addCase(resetActionStatus, (state, action) => {
         state.status = 'idle';
         state.error = null;
+      })
+      .addCase(addCalendar, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(addCalendar, (state, action) => {
+        state.status = 'succeeded';
+        state.error = action.error.message;
+      })
+      .addCase(addCalendar, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(deleteCalendar, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(deleteCalendar, (state, action) => {
+        state.status = 'succeeded';
+        state.error = action.error.message;
+      })
+      .addCase(deleteCalendar, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
       });
   },
 });
