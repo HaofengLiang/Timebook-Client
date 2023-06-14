@@ -107,25 +107,25 @@ export const eventsSlice = createSlice({
         state.status = 'idle';
         state.error = null;
       })
-      .addCase(addCalendar, (state, action) => {
+      .addCase(addCalendar.pending, (state, action) => {
         state.status = 'loading';
       })
-      .addCase(addCalendar, (state, action) => {
+      .addCase(addCalendar.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.error = action.error.message;
       })
-      .addCase(addCalendar, (state, action) => {
+      .addCase(addCalendar.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       })
-      .addCase(deleteCalendar, (state, action) => {
+      .addCase(deleteCalendar.pending, (state, action) => {
         state.status = 'loading';
       })
-      .addCase(deleteCalendar, (state, action) => {
+      .addCase(deleteCalendar.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.error = action.error.message;
       })
-      .addCase(deleteCalendar, (state, action) => {
+      .addCase(deleteCalendar.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });
