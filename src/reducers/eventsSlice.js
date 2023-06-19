@@ -112,7 +112,6 @@ export const eventsSlice = createSlice({
       })
       .addCase(addCalendar.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.error = action.error.message;
       })
       .addCase(addCalendar.rejected, (state, action) => {
         state.status = 'failed';
@@ -123,7 +122,6 @@ export const eventsSlice = createSlice({
       })
       .addCase(deleteCalendar.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.error = action.error.message;
       })
       .addCase(deleteCalendar.rejected, (state, action) => {
         state.status = 'failed';

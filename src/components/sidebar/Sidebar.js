@@ -11,8 +11,9 @@ import { DrawerHeader } from './MuiComponents';
 import { default as Collapse } from './CollapseComponet';
 import { useState } from 'react';
 import ServiceForm from './ServiceForm';
-import { addCalendar } from '../../services/eventService';
+import { addCalendar, getEvents } from '../../reducers/eventsSlice';
 import { useDispatch } from 'react-redux';
+import moment from 'moment';
 
 const style = {
   position: 'absolute',
@@ -35,7 +36,9 @@ export default function Sidebar({
   const dispatch = useDispatch();
 
   const calendarAddHandler = async (userEmail) => {
-    dispatch(addCalendar(userEmail));
+    dispatch(addCalendar(userEmail))
+      .then((res) => dispatch(getEvents(moment())))
+      .catch((err) => {});
     setServiceFormOpen(false);
   };
 
