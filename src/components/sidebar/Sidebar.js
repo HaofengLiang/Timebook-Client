@@ -11,6 +11,8 @@ import { DrawerHeader } from './MuiComponents';
 import { default as Collapse } from './CollapseComponet';
 import { useState } from 'react';
 import ServiceForm from './ServiceForm';
+import { addCalendar } from '../../services/eventService';
+import { useDispatch } from 'react-redux';
 
 const style = {
   position: 'absolute',
@@ -30,6 +32,17 @@ export default function Sidebar({
 }) {
   const drawerList = ['Home', 'Profile', 'Subscriptions'];
   const [serviceFormOpen, setServiceFormOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const calendarAddHandler = async (userEmail) => {
+    dispatch(addCalendar(userEmail));
+    setServiceFormOpen(false);
+  };
+
+  // const calendarDeleteHandler = async (userEmail) => {
+  //   dispatch(deleteCalendar(userEmail));
+  //   setServiceFormOpen(false);
+  // };
 
   const collapseLists = {
     'My calendars': {
@@ -118,7 +131,7 @@ export default function Sidebar({
       </Drawer>
       <Modal open={serviceFormOpen} onClose={() => setServiceFormOpen(false)}>
         <Box sx={style}>
-          <ServiceForm />
+          <ServiceForm onSubmit={calendarAddHandler} />
         </Box>
       </Modal>
     </>
