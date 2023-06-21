@@ -1,6 +1,6 @@
 import { TextField, Grid, Button } from '@mui/material';
 import { useState } from 'react';
-export default function ServiceForm({ onSubmit, onDelete }) {
+export default function ServiceForm({ onSubmit, onDelete, onChange }) {
   const [calendarName, setCalendarName] = useState('');
 
   const onSubmitHandler = (e) => {
@@ -20,7 +20,10 @@ export default function ServiceForm({ onSubmit, onDelete }) {
             label="Add calendar"
             value={calendarName}
             type="email"
-            onChange={(e) => setCalendarName(e.target.value)}
+            onChange={(e) => {
+              setCalendarName(e.target.value);
+              onChange();
+            }}
           />
         </Grid>
         <Grid item xs={2}>

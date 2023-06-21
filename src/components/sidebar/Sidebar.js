@@ -1,23 +1,21 @@
 import { List, ListItem, ListItemText, Box, Modal } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import Alert from '@mui/material/Alert';
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { DrawerHeader } from './MuiComponents';
 import { default as Collapse } from './CollapseComponet';
 import { useState } from 'react';
 import ServiceForm from './ServiceForm';
-import {
-  addCalendar,
-  deleteCalendar,
-  getEvents,
-} from '../../reducers/eventsSlice';
+import { getEvents } from '../../reducers/eventsSlice';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
+import { addCalendar, deleteCalendar } from '../../services/eventService';
 
 const style = {
   position: 'absolute',
@@ -37,24 +35,30 @@ export default function Sidebar({
 }) {
   const drawerList = ['Home', 'Profile', 'Subscriptions'];
   const [serviceFormOpen, setServiceFormOpen] = useState(false);
+  const [isAlertShow, setIsAlertShow] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
   const dispatch = useDispatch();
 
   const calendarAddHandler = async (userEmail) => {
-    dispatch(addCalendar(userEmail))
-      .then((res) => dispatch(getEvents(moment())))
-      .catch((err) => {
-        console.log(err);
-      });
-    setServiceFormOpen(false);
+    try {
+      await addCalendar(userEmail);
+      dispatch(getEvents(moment()));
+      setServiceFormOpen(false);
+    } catch (error) {
+      setIsAlertShow(true);
+      setAlertMessage('Fail to Subcribed.');
+    }
   };
 
   const calendarDeleteHandler = async (userEmail) => {
-    dispatch(deleteCalendar(userEmail))
-      .then((res) => dispatch(getEvents(moment())))
-      .catch((err) => {
-        console.log(err);
-      });
-    setServiceFormOpen(false);
+    try {
+      await deleteCalendar(userEmail);
+      dispatch(getEvents(moment()));
+      setServiceFormOpen(false);
+    } catch (error) {
+      setIsAlertShow(true);
+      setAlertMessage('Fail to Unsubcribed.');
+    }
   };
 
   const collapseLists = {
@@ -147,7 +151,15 @@ export default function Sidebar({
           <ServiceForm
             onSubmit={calendarAddHandler}
             onDelete={calendarDeleteHandler}
+            onChange={() => {
+              setIsAlertShow(false);
+            }}
           />
+          {isAlertShow && (
+            <Alert severity="error">
+              <strong>{alertMessage}</strong>
+            </Alert>
+          )}
         </Box>
       </Modal>
     </>
