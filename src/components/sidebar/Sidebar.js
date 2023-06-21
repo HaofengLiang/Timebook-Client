@@ -13,7 +13,7 @@ import { default as Collapse } from './CollapseComponet';
 import { useState } from 'react';
 import ServiceForm from './ServiceForm';
 import { getEvents } from '../../reducers/eventsSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { addCalendar, deleteCalendar } from '../../services/eventService';
 
@@ -38,11 +38,14 @@ export default function Sidebar({
   const [isAlertShow, setIsAlertShow] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const dispatch = useDispatch();
+  const dateTime = useSelector((state) =>
+    moment(state.calendarConfig.value.date)
+  );
 
   const calendarAddHandler = async (userEmail) => {
     try {
       await addCalendar(userEmail);
-      dispatch(getEvents(moment()));
+      dispatch(getEvents(dateTime));
       setServiceFormOpen(false);
     } catch (error) {
       setIsAlertShow(true);
@@ -53,7 +56,7 @@ export default function Sidebar({
   const calendarDeleteHandler = async (userEmail) => {
     try {
       await deleteCalendar(userEmail);
-      dispatch(getEvents(moment()));
+      dispatch(getEvents(dateTime));
       setServiceFormOpen(false);
     } catch (error) {
       setIsAlertShow(true);
