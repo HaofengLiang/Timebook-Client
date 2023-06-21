@@ -1,16 +1,21 @@
 import { TextField, Grid, Button } from '@mui/material';
 import { useState } from 'react';
-export default function ServiceForm({ onSubmit }) {
+export default function ServiceForm({ onSubmit, onDelete }) {
   const [calendarName, setCalendarName] = useState('');
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
     onSubmit(calendarName);
   };
 
+  const onDeleteHandler = () => {
+    onDelete(calendarName);
+  };
+
   return (
     <form onSubmit={onSubmitHandler}>
       <Grid container spacing={2}>
-        <Grid item sx={8}>
+        <Grid item xs={6}>
           <TextField
             label="Add calendar"
             value={calendarName}
@@ -24,7 +29,7 @@ export default function ServiceForm({ onSubmit }) {
           </Button>
         </Grid>
         <Grid item xs={2}>
-          <Button variant="contained" color="primary" onClick="">
+          <Button variant="contained" color="primary" onClick={onDeleteHandler}>
             Delete
           </Button>
         </Grid>

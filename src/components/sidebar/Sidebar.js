@@ -11,7 +11,11 @@ import { DrawerHeader } from './MuiComponents';
 import { default as Collapse } from './CollapseComponet';
 import { useState } from 'react';
 import ServiceForm from './ServiceForm';
-import { addCalendar, getEvents } from '../../reducers/eventsSlice';
+import {
+  addCalendar,
+  deleteCalendar,
+  getEvents,
+} from '../../reducers/eventsSlice';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 
@@ -38,14 +42,20 @@ export default function Sidebar({
   const calendarAddHandler = async (userEmail) => {
     dispatch(addCalendar(userEmail))
       .then((res) => dispatch(getEvents(moment())))
-      .catch((err) => {});
+      .catch((err) => {
+        console.log(err);
+      });
     setServiceFormOpen(false);
   };
 
-  // const calendarDeleteHandler = async (userEmail) => {
-  //   dispatch(deleteCalendar(userEmail));
-  //   setServiceFormOpen(false);
-  // };
+  const calendarDeleteHandler = async (userEmail) => {
+    dispatch(deleteCalendar(userEmail))
+      .then((res) => dispatch(getEvents(moment())))
+      .catch((err) => {
+        console.log(err);
+      });
+    setServiceFormOpen(false);
+  };
 
   const collapseLists = {
     'My calendars': {
@@ -134,7 +144,10 @@ export default function Sidebar({
       </Drawer>
       <Modal open={serviceFormOpen} onClose={() => setServiceFormOpen(false)}>
         <Box sx={style}>
-          <ServiceForm onSubmit={calendarAddHandler} />
+          <ServiceForm
+            onSubmit={calendarAddHandler}
+            onDelete={calendarDeleteHandler}
+          />
         </Box>
       </Modal>
     </>
