@@ -55,8 +55,6 @@ export const deleteCalendar = createAsyncThunk(
     return response.data;
   }
 );
-export const resetActionStatus = createAction('events/resetActionStatus');
-
 export const eventsSlice = createSlice({
   name: 'events',
   initialState: {
@@ -64,7 +62,12 @@ export const eventsSlice = createSlice({
     status: 'idle',
     error: null,
   },
-  reducers: {},
+  reducers: {
+    resetActionStatus: (state, action) => {
+      state.status = 'idle';
+      state.error = null;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getEvents.pending, (state, action) => {
@@ -103,10 +106,6 @@ export const eventsSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message;
       })
-      .addCase(resetActionStatus, (state, action) => {
-        state.status = 'idle';
-        state.error = null;
-      })
       .addCase(addCalendar.pending, (state, action) => {
         state.status = 'loading';
       })
@@ -130,4 +129,5 @@ export const eventsSlice = createSlice({
   },
 });
 
+export const { resetActionStatus } = eventsSlice.actions;
 export default eventsSlice.reducer;
