@@ -10,6 +10,8 @@ import { default as Popover } from './PopoeverComponent';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useState, Fragment } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateHiddenEmail } from '../../reducers/calendarConfigSlice';
 
 export default function CollapseComponet({
   collapseHeader,
@@ -20,6 +22,12 @@ export default function CollapseComponet({
 
   const handleCollapse = (e) => {
     setCollapseOpen((previousCollapseOpen) => !previousCollapseOpen);
+  };
+
+  const dispatch = useDispatch();
+
+  const toggleEmail = (userEmail) => {
+    dispatch(updateHiddenEmail(userEmail));
   };
 
   return (
@@ -34,7 +42,11 @@ export default function CollapseComponet({
           {collapseItems.map((item) => {
             return (
               <ListItem key={'collapseItem-' + item}>
-                <Checkbox key={'checkbox-' + item} />
+                <Checkbox
+                  key={'checkbox-' + item}
+                  onChange={() => toggleEmail(item)}
+                  defaultChecked
+                />
                 <ListItemText key={'listItemText' + item} primary={item} />
               </ListItem>
             );

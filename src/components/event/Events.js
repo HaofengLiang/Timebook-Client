@@ -62,8 +62,13 @@ function getEventWidthMap(events) {
 }
 
 export default function Events({ day, onEventSelect }) {
+  const hiddenEmails = useSelector(
+    (state) => state.calendarConfig.value.hiddenEmails
+  );
   const events = useSelector((state) =>
-    state.events.value.filter((item) => item.startDateTime.isSame(day, 'day'))
+    state.events.value
+      .filter((item) => item.startDateTime.isSame(day, 'day'))
+      .filter((event) => !hiddenEmails.includes(event.email))
   );
 
   const eventWidthMap = getEventWidthMap(events);
