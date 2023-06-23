@@ -87,6 +87,7 @@ export default function Events({ day, onEventSelect }) {
 
     return (
       <LightTooltip
+        key={event.id + '-list-item'}
         title={
           <>
             <div className="eventTitle">{event.title}</div>
@@ -100,7 +101,6 @@ export default function Events({ day, onEventSelect }) {
         placement="top"
       >
         <ListItem
-          key={event.id + '-list-item'}
           className="eventItem"
           style={{
             width: eventWidthMap[event.id.toString()],
