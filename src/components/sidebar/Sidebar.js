@@ -85,22 +85,16 @@ export default function Sidebar({
         subscribe: {
           text: 'Subscribe to calendar',
           action: () => {
-            console.log('Subscribe to calendar');
             setServiceFormOpen(true);
           },
         },
         create: {
           text: 'Create new calendar',
-          action: () => {
-            console.log('Create new calendar');
-          },
+          action: () => {},
         },
         browse: {
           text: 'Browse calendars of interest',
-          action: () => {
-            console.log('Browse calendars of interest');
-            console.log(calendarToggles);
-          },
+          action: () => {},
         },
       },
     },
