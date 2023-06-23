@@ -32,6 +32,7 @@ export default function Sidebar({
   handleDrawerClose,
   drawerOpen,
   drawerWidth,
+  userEmail,
 }) {
   const drawerList = ['Home', 'Profile', 'Subscriptions'];
   const [serviceFormOpen, setServiceFormOpen] = useState(false);
@@ -41,6 +42,15 @@ export default function Sidebar({
   const dateTime = useSelector((state) =>
     moment(state.calendarConfig.value.date)
   );
+
+  const allEvents = useSelector((state) => state.events.value);
+  const calendarToggles = [
+    ...new Set(
+      allEvents
+        .filter((event) => event.email !== userEmail)
+        .map((event) => event.email)
+    ),
+  ];
 
   const calendarAddHandler = async (userEmail) => {
     try {
@@ -70,7 +80,7 @@ export default function Sidebar({
       services: {},
     },
     'Other calendars': {
-      checkboxes: ['Holidays in United States'],
+      checkboxes: calendarToggles,
       services: {
         subscribe: {
           text: 'Subscribe to calendar',
@@ -89,6 +99,7 @@ export default function Sidebar({
           text: 'Browse calendars of interest',
           action: () => {
             console.log('Browse calendars of interest');
+            console.log(calendarToggles);
           },
         },
       },

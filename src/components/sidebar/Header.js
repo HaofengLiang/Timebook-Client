@@ -63,6 +63,7 @@ export default function Header({
         handleDrawerClose={handleDrawerClose}
         drawerOpen={drawerOpen}
         drawerWidth={drawerWidth}
+        userEmail={user && user.attributes.email}
       />
     </>
   );
