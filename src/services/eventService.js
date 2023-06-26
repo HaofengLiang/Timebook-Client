@@ -49,3 +49,11 @@ export function saveEvent(event) {
 export function deleteEvent(eventId) {
   return axios.delete(`${apiUrl}/events/${eventId}`);
 }
+
+export async function addCalendar(email) {
+  return axios.post(`${apiUrl}/subscribe`, { email });
+}
+
+export async function deleteCalendar(email) {
+  return axios.post(`${apiUrl}/unsubscribe`, { email });
+}

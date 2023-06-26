@@ -5,7 +5,6 @@ import './Sidebar.css';
 
 export default function PopoverComponent({ services }) {
   const [popoverOpen, setPopovereOpen] = useState(null);
-  const [serviceFormOpen, setServiceFormOpen] = useState(false);
 
   const addIconOnclick = (e) => {
     e.stopPropagation();

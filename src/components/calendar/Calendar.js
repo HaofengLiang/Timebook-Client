@@ -15,6 +15,7 @@ import {
   deleteEvent,
   resetActionStatus,
 } from '../../reducers/eventsSlice';
+import { saveDate } from '../../reducers/calendarConfigSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
@@ -41,6 +42,7 @@ export default function Calendar() {
 
   useEffect(() => {
     dispatch(getEvents(selectedDateTime));
+    dispatch(saveDate(selectedDateTime.toISOString()));
   }, [dispatch, selectedDateTime]);
 
   const selectNextWeekHandler = () => {

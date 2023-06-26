@@ -62,8 +62,13 @@ function getEventWidthMap(events) {
 }
 
 export default function Events({ day, onEventSelect }) {
+  const hiddenEmails = useSelector(
+    (state) => state.calendarConfig.value.hiddenEmails
+  );
   const events = useSelector((state) =>
-    state.events.value.filter((item) => item.startDateTime.isSame(day, 'day'))
+    state.events.value
+      .filter((item) => item.startDateTime.isSame(day, 'day'))
+      .filter((event) => !hiddenEmails.includes(event.email))
   );
 
   const eventWidthMap = getEventWidthMap(events);
@@ -82,6 +87,7 @@ export default function Events({ day, onEventSelect }) {
 
     return (
       <LightTooltip
+        key={event.id + '-list-item'}
         title={
           <>
             <div className="eventTitle">{event.title}</div>
@@ -95,7 +101,6 @@ export default function Events({ day, onEventSelect }) {
         placement="top"
       >
         <ListItem
-          key={event.id + '-list-item'}
           className="eventItem"
           style={{
             width: eventWidthMap[event.id.toString()],

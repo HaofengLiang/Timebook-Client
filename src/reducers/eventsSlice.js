@@ -3,6 +3,8 @@ import {
   saveEvent as saveEventApi,
   deleteEvent as deleteEventApi,
   fetchEventsByWeek,
+  addCalendar as addCalendarApi,
+  deleteCalendar as deleteCalendarApi,
 } from '../services/eventService';
 import moment from 'moment';
 
@@ -38,6 +40,21 @@ export const deleteEvent = createAsyncThunk(
   }
 );
 
+export const addCalendar = createAsyncThunk(
+  'events/addCalendar',
+  async (email) => {
+    const response = await addCalendarApi(email);
+    return response.data;
+  }
+);
+
+export const deleteCalendar = createAsyncThunk(
+  'events/deleteCalendar',
+  async (email) => {
+    const response = await deleteCalendarApi(email);
+    return response.data;
+  }
+);
 export const eventsSlice = createSlice({
   name: 'events',
   initialState: {
@@ -86,6 +103,26 @@ export const eventsSlice = createSlice({
         state.value = state.value.filter((item) => item.id !== action.payload);
       })
       .addCase(deleteEvent.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(addCalendar.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(addCalendar.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+      })
+      .addCase(addCalendar.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(deleteCalendar.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(deleteCalendar.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+      })
+      .addCase(deleteCalendar.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });
