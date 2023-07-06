@@ -16,6 +16,7 @@ import { getEvents } from '../../reducers/eventsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { addCalendar, deleteCalendar } from '../../services/eventService';
+import { searchUser } from '../../services/userService';
 
 const style = {
   position: 'absolute',
@@ -38,6 +39,7 @@ export default function Sidebar({
   const [serviceFormOpen, setServiceFormOpen] = useState(false);
   const [isAlertShow, setIsAlertShow] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [calendarNames, setCalendarNames] = useState([]);
   const dispatch = useDispatch();
   const dateTime = useSelector((state) =>
     moment(state.calendarConfig.value.date)
@@ -100,6 +102,17 @@ export default function Sidebar({
     },
   };
 
+  let timer;
+  function debounce(userInput, timeout = 300) {
+    return () => {
+      clearTimeout(timer);
+      timer = setTimeout(
+        () => searchUser(userInput).then((res) => setCalendarNames(res.data)),
+        timeout
+      );
+    };
+  }
+
   return (
     <>
       <Drawer
@@ -159,9 +172,11 @@ export default function Sidebar({
           <ServiceForm
             onSubmit={calendarAddHandler}
             onDelete={calendarDeleteHandler}
-            onChange={() => {
+            onChange={(userInput) => {
+              debounce(userInput, 500)();
               setIsAlertShow(false);
             }}
+            calendarNames={calendarNames}
           />
           {isAlertShow && (
             <Alert severity="error">

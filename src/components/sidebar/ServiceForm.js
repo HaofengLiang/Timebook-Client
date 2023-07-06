@@ -1,11 +1,11 @@
 import { TextField, Grid, Button, Box, Autocomplete } from '@mui/material';
 import { useState } from 'react';
-export default function ServiceForm({ onSubmit, onDelete, onChange }) {
-  const calendarNames = [
-    { email: 'weixiang237@gmail.com' },
-    { email: 'hl240@nyu.edu' },
-  ];
-
+export default function ServiceForm({
+  onSubmit,
+  onDelete,
+  onChange,
+  calendarNames,
+}) {
   const [calendarName, setCalendarName] = useState({ email: '' });
   const [inputValue, setInputValue] = useState('');
 
@@ -35,7 +35,7 @@ export default function ServiceForm({ onSubmit, onDelete, onChange }) {
           inputValue={inputValue}
           onInputChange={(e, newInput) => {
             setInputValue(newInput);
-            onChange();
+            onChange(newInput);
           }}
           value={calendarName}
           onChange={(e, newCalendarName) => {
