@@ -3,9 +3,7 @@ import { useState } from 'react';
 import Calendar from './components/calendar/Calendar';
 import ErrorScreen from './components/error/ErrorScreen';
 import Header from './components/sidebar/Header';
-import { Amplify } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
-import awsExports from './aws-exports';
 import '@aws-amplify/ui-react/styles.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import {
@@ -24,15 +22,6 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  // Configure Amplify in index file or root file
-  Amplify.configure({
-    Auth: {
-      region: awsExports.REGION,
-      userPoolId: awsExports.USER_POOL_ID,
-      userPoolWebClientId: awsExports.USER_POOL_APP_CLIENT_ID,
-    },
-  });
-
   const [drawerOpen, setDrawerOpen] = useState(false);
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
