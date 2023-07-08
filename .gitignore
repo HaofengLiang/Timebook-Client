@@ -26,6 +26,7 @@ yarn-error.log*
 aws-exports.js
 
 #amplify-do-not-edit-begin
+amplify
 amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/logs
@@ -46,3 +47,6 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+
+#vscode
+.vscode
