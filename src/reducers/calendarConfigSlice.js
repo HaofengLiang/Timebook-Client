@@ -4,7 +4,7 @@ import moment from 'moment';
 export const calendarConfigSlice = createSlice({
   name: 'calendarConfig',
   initialState: {
-    value: { date: moment().toISOString(), hiddenEmails: [] },
+    value: { date: moment().toISOString(), hiddenEmails: [], userEmail: '' },
   },
   reducers: {
     saveDate: (state, action) => {
@@ -19,9 +19,13 @@ export const calendarConfigSlice = createSlice({
         state.value.hiddenEmails.push(action.payload);
       }
     },
+    setUserEmail: (state, action) => {
+      state.value.userEmail = action.payload;
+    },
   },
 });
 
-export const { saveDate, updateHiddenEmail } = calendarConfigSlice.actions;
+export const { saveDate, updateHiddenEmail, setUserEmail } =
+  calendarConfigSlice.actions;
 
 export default calendarConfigSlice.reducer;
