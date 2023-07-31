@@ -107,7 +107,10 @@ export default function Sidebar({
     return () => {
       clearTimeout(timer);
       timer = setTimeout(
-        () => searchUser(userInput).then((res) => setCalendarNames(res.data)),
+        () =>
+          searchUser(userInput)
+            .then((res) => setCalendarNames(res.data))
+            .catch((error) => console.log(error)),
         timeout
       );
     };
