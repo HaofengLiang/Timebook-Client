@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Calendar from './components/calendar/Calendar';
 import ErrorScreen from './components/error/ErrorScreen';
 import Header from './components/sidebar/Header';
-import { Amplify } from 'aws-amplify';
+import { Amplify, Auth } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import awsExports from './aws-exports';
 import '@aws-amplify/ui-react/styles.css';
@@ -15,6 +15,9 @@ import {
   DrawerHeader,
 } from './components/sidebar/MuiComponents';
 
+import { useDispatch } from 'react-redux';
+import { setUserEmail } from './reducers/calendarConfigSlice';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -24,6 +27,15 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const dispatch = useDispatch();
+  Auth.currentAuthenticatedUser()
+    .then((user) => {
+      if (!user) return;
+      console.log(user.attributes);
+      dispatch(setUserEmail(user.attributes.email));
+    })
+    .catch((error) => console.log(error));
+
   // Configure Amplify in index file or root file
   Amplify.configure({
     Auth: {

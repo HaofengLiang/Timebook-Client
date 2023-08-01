@@ -1,8 +1,8 @@
 import moment from 'moment';
 import axios from 'axios';
-import { Auth } from 'aws-amplify';
+// import { Auth } from 'aws-amplify';
 
-const apiUrl = 'http://localhost:8080/v1';
+// const apiUrl = 'http://localhost:8080/v1';
 
 function transformEvent(event) {
   return {
@@ -12,25 +12,25 @@ function transformEvent(event) {
   };
 }
 
-async function getAuthToken() {
-  const session = await Auth.currentSession();
-  return 'Bearer ' + session.getIdToken().getJwtToken();
-}
+// async function getAuthToken() {
+//   const session = await Auth.currentSession();
+//   return 'Bearer ' + session.getIdToken().getJwtToken();
+// }
 
-axios.interceptors.request.use(
-  async (config) => {
-    config.headers.authorization = await getAuthToken();
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+// axios.interceptors.request.use(
+//   async (config) => {
+//     config.headers.authorization = await getAuthToken();
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
 
 export async function fetchEvents() {
   let weekEvents = [];
   await axios
-    .get(`${apiUrl}/events`)
+    .get(`/events`)
     .then((res) => {
       weekEvents = res.data.map((event) => transformEvent(event));
     })
@@ -39,21 +39,21 @@ export async function fetchEvents() {
 }
 
 export async function fetchEventsByWeek(date) {
-  return axios.get(`${apiUrl}/calendar/week/${date.format('YYYY-MM-DD')}`);
+  return axios.get(`/calendar/week/${date.format('YYYY-MM-DD')}`);
 }
 
 export function saveEvent(event) {
-  return axios.post(`${apiUrl}/events`, event);
+  return axios.post(`/events`, event);
 }
 
 export function deleteEvent(eventId) {
-  return axios.delete(`${apiUrl}/events/${eventId}`);
+  return axios.delete(`/events/${eventId}`);
 }
 
 export async function addCalendar(email) {
-  return axios.post(`${apiUrl}/subscribe`, { email });
+  return axios.post(`/subscribe`, { email });
 }
 
 export async function deleteCalendar(email) {
-  return axios.post(`${apiUrl}/unsubscribe`, { email });
+  return axios.post(`/unsubscribe`, { email });
 }

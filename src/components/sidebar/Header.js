@@ -8,8 +8,6 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Sidebar from './Sidebar';
-import { useDispatch } from 'react-redux';
-import { setUserEmail } from '../../reducers/calendarConfigSlice';
 
 export default function Header({
   signOut,
@@ -20,10 +18,6 @@ export default function Header({
   handleDrawerClose,
   drawerOpen,
 }) {
-
-  const dispatch = useDispatch();
-  dispatch(setUserEmail(user && user.attributes.email));
-
   return (
     <>
       <AppBar position="fixed" open={drawerOpen}>

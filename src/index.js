@@ -5,6 +5,25 @@ import App from './App';
 import store from './store/store';
 import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
+import axios from 'axios';
+import { Auth } from 'aws-amplify';
+
+async function getAuthToken() {
+  const session = await Auth.currentSession();
+  return 'Bearer ' + session.getIdToken().getJwtToken();
+}
+
+axios.defaults.baseURL = 'http://localhost:8080/v1';
+
+axios.interceptors.request.use(
+  async (config) => {
+    config.headers.authorization = await getAuthToken();
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
