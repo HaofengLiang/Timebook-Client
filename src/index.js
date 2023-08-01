@@ -5,6 +5,10 @@ import App from './App';
 import store from './store/store';
 import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
+import { Amplify } from 'aws-amplify';
+import awsmobile from './aws-exports';
+Amplify.configure(awsmobile);
+
 import axios from 'axios';
 import { Auth } from 'aws-amplify';
 

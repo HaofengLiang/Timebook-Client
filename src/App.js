@@ -5,7 +5,6 @@ import ErrorScreen from './components/error/ErrorScreen';
 import Header from './components/sidebar/Header';
 import { Amplify, Auth } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
-import awsExports from './aws-exports';
 import '@aws-amplify/ui-react/styles.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import {
