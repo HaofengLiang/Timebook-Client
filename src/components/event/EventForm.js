@@ -2,6 +2,7 @@ import { Button, Grid, TextField, Typography } from '@mui/material';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Fragment, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export default function EventForm({ onSubmit, onDelete, selectedEvent }) {
   const [title, setTitle] = useState(selectedEvent.title);
@@ -32,6 +33,10 @@ export default function EventForm({ onSubmit, onDelete, selectedEvent }) {
       onSubmit(event);
     }
   };
+
+  const userEmail = useSelector(
+    (state) => state.calendarConfig.value.userEmail
+  );
 
   useEffect(() => {
     //if title,description input is empty then setButtonDiabled to true
@@ -103,16 +108,18 @@ export default function EventForm({ onSubmit, onDelete, selectedEvent }) {
               </Button>
             </Grid>
             <Grid item xs={2}>
-              <Button
-                variant="contained"
-                corlor="primary"
-                type="button"
-                onClick={() => {
-                  onDelete(selectedEvent);
-                }}
-              >
-                Delete
-              </Button>
+              {userEmail === selectedEvent.email && (
+                <Button
+                  variant="contained"
+                  corlor="primary"
+                  type="button"
+                  onClick={() => {
+                    onDelete(selectedEvent);
+                  }}
+                >
+                  Delete
+                </Button>
+              )}
             </Grid>
           </Grid>
         </form>
