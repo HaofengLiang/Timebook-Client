@@ -35,15 +35,6 @@ function App() {
     })
     .catch((error) => console.log(error));
 
-  // Configure Amplify in index file or root file
-  Amplify.configure({
-    Auth: {
-      region: awsExports.REGION,
-      userPoolId: awsExports.USER_POOL_ID,
-      userPoolWebClientId: awsExports.USER_POOL_APP_CLIENT_ID,
-    },
-  });
-
   const [drawerOpen, setDrawerOpen] = useState(false);
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
